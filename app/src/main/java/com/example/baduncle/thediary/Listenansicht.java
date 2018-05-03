@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 public class Listenansicht extends AppCompatActivity {
     final Context context=this;
     private TextView mTextMessage;
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,14 +42,7 @@ public class Listenansicht extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listenansicht);
-        Button addbutton= (Button) findViewById(R.id.addbutton);
-        addbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(context,NeuerEintrag.class);
-            }
-        }) ;
-
+        FloatingActionButton button=  findViewById(R.id.addbutton);
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -58,7 +51,13 @@ public class Listenansicht extends AppCompatActivity {
         MenuItem menuitem= menu.getItem(0);
         menuitem.setChecked(true);
 
-
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(context,NeuerEintrag.class);
+                startActivity(intent);
+            }
+        }) ;
     }
 
 }
