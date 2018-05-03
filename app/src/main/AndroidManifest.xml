@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.baduncle.thediary">
 
+    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Kalenderansicht"></activity>
+        <activity android:name=".NeuerEintrag"></activity>
     </application>
 
 </manifest>
