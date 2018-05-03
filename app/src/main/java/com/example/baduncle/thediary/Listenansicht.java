@@ -21,10 +21,10 @@ public class Listenansicht extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_liste:
-                    mTextMessage.setText("Liste");
+                    mTextMessage.setText("");
                     return true;
                 case R.id.navigation_kalender:
-                    mTextMessage.setText("Kalender");
+                    mTextMessage.setText("");
                     Intent intent2 = new Intent(context,Kalenderansicht.class);
                     startActivity(intent2);
                     return true;

@@ -21,12 +21,12 @@ public class Kalenderansicht extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_liste:
-                    mTextMessage.setText("Liste");
+                    mTextMessage.setText("");
                     Intent intent1 = new Intent(context,Listenansicht.class);
                     startActivity(intent1);
                     return true;
                 case R.id.navigation_kalender:
-                    mTextMessage.setText("Kalender");
+                    mTextMessage.setText("");
                     return true;
             }
             return false;
