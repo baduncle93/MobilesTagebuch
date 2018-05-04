@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Kalenderansicht"></activity>
-        <activity android:name=".NeuerEintrag"></activity>
+        <activity android:name=".NeuerEintrag"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
