@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -60,7 +62,14 @@ public class Listenansicht extends AppCompatActivity {
         SharedPreferences.Editor eintragseditor = eintragsspeicher.edit();
         neu =getIntent();
         extras=neu.getExtras();
-        tl=(TableLayout) findViewById(R.id.eintragstable);;
+      //  tl=(TableLayout) findViewById(R.id.eintragstable);;
+
+        //Test der ListView
+        String[] tit = {"hallo","nasdnia","dadas","sadasdasd"};
+        String[] beschr = {"hallo","dadas","sadasdasd"};
+        ListAdapter adapter = new CustomAdapter(context,5);
+        ListView listview = (ListView) findViewById(R.id.eintragsliste);
+        listview.setAdapter(adapter);
 
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -83,13 +92,14 @@ public class Listenansicht extends AppCompatActivity {
                 neuereihe();
             }
         }
+
     }
 
     public void neuereihe() {
         int eintragsid= extras.getInt("eintragsid");
         TableRow tr = new TableRow(context);
         tr.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.MATCH_PARENT));
 
         TextView tittext=new TextView(context);
         tittext.setWidth(100);// give how much you need
@@ -101,15 +111,11 @@ public class Listenansicht extends AppCompatActivity {
         einbild.setImageURI(Uri.parse(eintragsspeicher.getString("bild "+eintragsid,"fail")));
        // einbild.setImageBitmap();
 
-        TableRow tablerow = findViewById(R.id.tablerow1);
+       // TableRow tablerow = findViewById(R.id.tablerow1);
 
 //set your text
-        if (eintragsspeicher.getString("bild "+eintragsid,"fail").equals("fail")) {
 
-        }
-        else {
-            tr.addView(einbild);
-        }
+        tr.addView(einbild);
         tr.addView(tittext);
         tr.addView(beschtext);
 
