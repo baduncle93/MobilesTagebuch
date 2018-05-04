@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,11 @@ public class NeuerEintrag extends AppCompatActivity {
     FloatingActionButton bildbutton;
     String[] permission = {Manifest.permission.CAMERA};
     private static final int requestcode=123;
+    private int eintragsid;
+    EditText beschreibungstext;
+    EditText titeltext;
+    SharedPreferences eintragsspeicher;
+    SharedPreferences.Editor eintragseditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +57,13 @@ public class NeuerEintrag extends AppCompatActivity {
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
+        eintragsid=1;
         neuesbild= (ImageView) findViewById(R.id.neuesbild);
         bildbutton=  findViewById(R.id.bildbutton);
-
+        eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
+        eintragseditor = eintragsspeicher.edit();
+        beschreibungstext = (EditText) findViewById(R.id.beschreibung);
+        titeltext = (EditText) findViewById(R.id.titel);
 
         Calendar kalender = Calendar.getInstance();
         SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
@@ -171,15 +181,20 @@ public class NeuerEintrag extends AppCompatActivity {
             return;
         }
         else{
+            String titelkey = "titel "+eintragsid;
             String titelspeichern = titel.getEditText().getText().toString();
+            String beschreibungskey = "beschreibung "+eintragsid;
             String beschreibungspeichern = beschreibung.getEditText().getText().toString();
 
             //Speichert Daten für Anzeige
-            SharedPreferences eintragsspeicher = getSharedPreferences("Eintragsspeicher",0);
-            SharedPreferences.Editor eintragseditor = eintragsspeicher.edit();
-
+            eintragseditor.putString(titelkey,titeltext.getText().toString());
+            eintragseditor.putString(beschreibungskey,beschreibungstext.getText().toString());
+            eintragseditor.commit();
             //zurück zum Hauptscreen
             Intent intent = new Intent(context,Listenansicht.class);
+            intent.putExtra("eintragsid",eintragsid);
+            intent.putExtra("neuereintrag",true);
+            eintragsid++;
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
