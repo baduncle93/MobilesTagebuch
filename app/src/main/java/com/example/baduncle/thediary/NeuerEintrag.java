@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -164,9 +166,18 @@ public class NeuerEintrag extends AppCompatActivity {
             return;
         }
         else{
-            String titelspeichern=titel.getEditText().getText().toString();
-            String beschreibungspeichern=beschreibung.getEditText().getText().toString();
+            String titelspeichern = titel.getEditText().getText().toString();
+            String beschreibungspeichern = beschreibung.getEditText().getText().toString();
 
+            //Speichert Daten für Anzeige
+            SharedPreferences eintragsspeicher = getSharedPreferences("Eintragsspeicher",0);
+            SharedPreferences.Editor eintragseditor = eintragsspeicher.edit();
+
+            //zurück zum Hauptscreen
+            Intent intent = new Intent(context,Listenansicht.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
         }
     }
 
