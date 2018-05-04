@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ public class Listenansicht extends AppCompatActivity {
     SharedPreferences eintragsspeicher;
     Intent neu;
     Bundle extras;
+    TableLayout tl;
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -58,6 +60,7 @@ public class Listenansicht extends AppCompatActivity {
         SharedPreferences.Editor eintragseditor = eintragsspeicher.edit();
         neu =getIntent();
         extras=neu.getExtras();
+        tl=(TableLayout) findViewById(R.id.eintragstable);;
 
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -84,7 +87,6 @@ public class Listenansicht extends AppCompatActivity {
 
     public void neuereihe() {
         int eintragsid= extras.getInt("eintragsid");
-        TableLayout tl=(TableLayout) findViewById(R.id.eintragstable);
         TableRow tr = new TableRow(context);
         tr.setLayoutParams(new TableRow.LayoutParams(
                 TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -94,10 +96,20 @@ public class Listenansicht extends AppCompatActivity {
         tittext.setText(eintragsspeicher.getString("titel "+eintragsid,"fail"));
         TextView beschtext=new TextView(context);
         beschtext.setWidth(100);// give how much you need
-        beschtext.setText(eintragsspeicher.getString("beschreibung "+eintragsid,"fail"));
+        beschtext.setText(eintragsspeicher.getString("beschreibung "+eintragsid,"Kein Text vergeben"));
         ImageView einbild=new ImageView(context);
+        einbild.setImageURI(Uri.parse(eintragsspeicher.getString("bild "+eintragsid,"fail")));
        // einbild.setImageBitmap();
+
+        TableRow tablerow = findViewById(R.id.tablerow1);
+
 //set your text
+        if (eintragsspeicher.getString("bild "+eintragsid,"fail").equals("fail")) {
+
+        }
+        else {
+            tr.addView(einbild);
+        }
         tr.addView(tittext);
         tr.addView(beschtext);
 

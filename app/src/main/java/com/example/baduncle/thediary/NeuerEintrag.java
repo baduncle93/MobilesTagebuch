@@ -67,6 +67,7 @@ public class NeuerEintrag extends AppCompatActivity {
         eintragseditor = eintragsspeicher.edit();
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
         titeltext = (EditText) findViewById(R.id.titel);
+        bilduri=Uri.parse("abc");
 
         Calendar kalender = Calendar.getInstance();
         SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
@@ -156,7 +157,6 @@ public class NeuerEintrag extends AppCompatActivity {
             if(requestcode==1) {
                 Bundle bundle = data.getExtras();
                 bitmap = (Bitmap) bundle.get("data");
-                //neuesbild.setImageBitmap(bitmap);
                 bilduri = getImageUri(context,bitmap);
                 neuesbild.setImageURI(bilduri);
             }
@@ -190,10 +190,13 @@ public class NeuerEintrag extends AppCompatActivity {
             String titelspeichern = titel.getEditText().getText().toString();
             String beschreibungskey = "beschreibung "+eintragsid;
             String beschreibungspeichern = beschreibung.getEditText().getText().toString();
+            String bildkey = "bild "+eintragsid;
+            String bildspeichern = bilduri.toString();
 
             //Speichert Daten für Anzeige
             eintragseditor.putString(titelkey,titeltext.getText().toString());
             eintragseditor.putString(beschreibungskey,beschreibungstext.getText().toString());
+            eintragseditor.putString(bildkey,bildspeichern);
             eintragseditor.commit();
             //zurück zum Hauptscreen
             Intent intent = new Intent(context,Listenansicht.class);
