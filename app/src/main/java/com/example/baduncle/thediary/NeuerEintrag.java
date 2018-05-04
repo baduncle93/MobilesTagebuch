@@ -28,7 +28,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class NeuerEintrag extends AppCompatActivity {
@@ -53,6 +53,11 @@ public class NeuerEintrag extends AppCompatActivity {
         datum = (TextView) findViewById(R.id.datum);
         neuesbild= (ImageView) findViewById(R.id.neuesbild);
         bildbutton=  findViewById(R.id.bildbutton);
+
+
+        Calendar kalender = Calendar.getInstance();
+        SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
+        datum.setText(datumsformat.format(kalender.getTime()));
 
         //Eingabefeld für Datum anzeigen
         datum.setOnClickListener(new View.OnClickListener() {
