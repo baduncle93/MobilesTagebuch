@@ -207,7 +207,7 @@
         app:menu="@menu/navigation" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addbutton"
+        android:id="@+id/addbutton_list"
         android:layout_width="50dp"
         android:layout_height="54dp"
         android:layout_marginBottom="10dp"

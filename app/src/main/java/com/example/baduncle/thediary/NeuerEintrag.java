@@ -1,13 +1,18 @@
 package com.example.baduncle.thediary;
 
 import android.Manifest;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -76,16 +81,41 @@ public class NeuerEintrag extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
+                    bildwahl();
+                }
+            });
+
+    }
+
+    public void bildwahl() {
+        final CharSequence[] items = {"Kamera","Gallerie","Abbrechen"};
+        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+        builder.setTitle("Bild hinzufügen");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(items[i].equals("Kamera")){
+
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     if(ContextCompat.checkSelfPermission(context,permission[0])==PackageManager.PERMISSION_GRANTED) {
-                    startActivityForResult(intent, 0);
+                        startActivityForResult(intent, 1);
                     }
                     else {
                         ActivityCompat.requestPermissions(NeuerEintrag.this,permission,requestcode);
                     }
                 }
-            });
+                else if (items[i].equals("Gallerie")){
 
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent.createChooser(intent,"Wähle Bild"),2);
+                }
+                else if (items[i].equals("Abbrechen")){
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -93,14 +123,24 @@ public class NeuerEintrag extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (grantResults[0]==0)
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestcode,int resultcode,Intent data) {
         super.onActivityResult(requestcode,resultcode,data);
-        bitmap= (Bitmap) data.getExtras().get("data");
-        neuesbild.setImageBitmap(bitmap);
+        if (resultcode == Activity.RESULT_OK){
+            if(requestcode==1) {
+                Bundle bundle = data.getExtras();
+                bitmap = (Bitmap) bundle.get("data");
+                neuesbild.setImageBitmap(bitmap);
+            }
+            else if(requestcode==2) {
+                Uri bilduri = data.getData();
+                neuesbild.setImageURI(bilduri);
+            }
+
+        }
     }
     private boolean titelnichtleer(){
         String titelstring = titel.getEditText().getText().toString().trim();
