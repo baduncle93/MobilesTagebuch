@@ -29,6 +29,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -49,6 +51,7 @@ public class NeuerEintrag extends AppCompatActivity {
     EditText titeltext;
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
+    Uri bilduri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,10 +156,12 @@ public class NeuerEintrag extends AppCompatActivity {
             if(requestcode==1) {
                 Bundle bundle = data.getExtras();
                 bitmap = (Bitmap) bundle.get("data");
-                neuesbild.setImageBitmap(bitmap);
+                //neuesbild.setImageBitmap(bitmap);
+                bilduri = getImageUri(context,bitmap);
+                neuesbild.setImageURI(bilduri);
             }
             else if(requestcode==2) {
-                Uri bilduri = data.getData();
+                bilduri = data.getData();
                 neuesbild.setImageURI(bilduri);
             }
 
@@ -201,4 +206,10 @@ public class NeuerEintrag extends AppCompatActivity {
         }
     }
 
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes); // Used for compression rate of the Image : 100 means no compression
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "xyz", null);
+        return Uri.parse(path);
+    }
 }
