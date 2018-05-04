@@ -31,7 +31,6 @@ import java.util.Calendar;
 
 public class NeuerEintrag extends AppCompatActivity {
 
-
     private TextInputLayout titel;
     private TextInputLayout beschreibung;
     private TextView datum;
@@ -39,6 +38,7 @@ public class NeuerEintrag extends AppCompatActivity {
     final Context context=this;
     Bitmap bitmap;
     ImageView neuesbild;
+    FloatingActionButton bildbutton;
     String[] permission = {Manifest.permission.CAMERA};
     private static final int requestcode=123;
 
@@ -48,8 +48,11 @@ public class NeuerEintrag extends AppCompatActivity {
         setContentView(R.layout.activity_neuereintrag);
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
-
         datum = (TextView) findViewById(R.id.datum);
+        neuesbild= (ImageView) findViewById(R.id.neuesbild);
+        bildbutton=  findViewById(R.id.bildbutton);
+
+        //Eingabefeld für Datum anzeigen
         datum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +67,7 @@ public class NeuerEintrag extends AppCompatActivity {
             }
         });
 
+        //Datumsausgabe Formatieren
         ondatesetlistener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int jahr, int monat, int tag) {
@@ -73,20 +77,18 @@ public class NeuerEintrag extends AppCompatActivity {
             }
         };
 
-        neuesbild= (ImageView) findViewById(R.id.neuesbild);
-        FloatingActionButton bildbutton=  findViewById(R.id.bildbutton);
+        //Bildauswahl mit Wählen des Kamerabuttons starten
+        bildbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
-            bildbutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    bildwahl();
-                }
-            });
+                bildwahl();
+            }
+        });
 
     }
 
+    //Handling für Auswahl eines Bildes von Gallerie/Kamera
     public void bildwahl() {
         final CharSequence[] items = {"Kamera","Gallerie","Abbrechen"};
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
@@ -126,6 +128,7 @@ public class NeuerEintrag extends AppCompatActivity {
             startActivityForResult(intent, 1);
     }
 
+    //Nach Bildauswahl durch Bediener
     @Override
     protected void onActivityResult(int requestcode,int resultcode,Intent data) {
         super.onActivityResult(requestcode,resultcode,data);
@@ -142,6 +145,8 @@ public class NeuerEintrag extends AppCompatActivity {
 
         }
     }
+
+    //Überprüfung ob Titelfeld leer ist
     private boolean titelnichtleer(){
         String titelstring = titel.getEditText().getText().toString().trim();
         if(titelstring.isEmpty()) {
@@ -153,6 +158,7 @@ public class NeuerEintrag extends AppCompatActivity {
             return true;
         }
 }
+    //Speichern der Daten, wenn alle Eingaben in Ordnung sind
     public void eingabeok(View v) {
         if(!titelnichtleer()) {
             return;
