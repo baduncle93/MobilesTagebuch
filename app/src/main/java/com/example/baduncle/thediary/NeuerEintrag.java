@@ -176,10 +176,25 @@ public class NeuerEintrag extends AppCompatActivity {
             titel.setError(null);
             return true;
         }
-}
+        }
+
+    //Überprüfung ob Titelfeld leer ist
+    private boolean falscheszeichen(){
+        String titelstring = titel.getEditText().getText().toString().trim();
+        String beschrstring = beschreibung.getEditText().getText().toString().trim();
+        if(titelstring.contains("§")||titelstring.contains("%")||beschrstring.contains("%")||beschrstring.contains("§")) {
+            titel.setError("Ungültige Zeichen § oder % in Titel oder Beschreibung!");
+            return false;
+        }
+        else {
+            titel.setError(null);
+            return true;
+        }
+    }
+
     //Speichern der Daten, wenn alle Eingaben in Ordnung sind
     public void eingabeok(View v) {
-        if(!titelnichtleer()) {
+        if(!titelnichtleer()|!falscheszeichen()) {
             return;
         }
         else{
