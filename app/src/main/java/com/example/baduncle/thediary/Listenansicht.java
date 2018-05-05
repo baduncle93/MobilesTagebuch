@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -75,12 +76,21 @@ public class Listenansicht extends AppCompatActivity {
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
 
+        //Durch klicken auf Listenitem zur Detailansicht gelangen
+        eintragsliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(context,Detailansicht.class);
+                intent.putExtra("eintragsid",eintragsliste.getItemAtPosition(i).toString());
+                startActivity(intent);
+            }
+        });
         //Zum Löschen aller Elemente auskommentieren
        // eintragseditor.remove("Einträge");
        // eintragseditor.commit();
 
         alledaten = new ArrayList<Datensammler>();
-        alledaten = parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
         for(int i=0;alledaten.size()>i;i++){
             adapter.add(alledaten.get(i));
         }
@@ -114,7 +124,7 @@ public class Listenansicht extends AppCompatActivity {
         extras=neu.getExtras();
         int eintragsid= extras.getInt("eintragsid");
         String neuereintrag = eintragsspeicher.getString("stringneu","fail");
-        alledaten.add(parseEntry(neuereintrag));
+        alledaten.add(Datensammler.parseEntry(neuereintrag));
         String stringalles="";
 
         for(int i=0;alledaten.size() > i;i++) {
@@ -127,34 +137,5 @@ public class Listenansicht extends AppCompatActivity {
         startActivity(intent);
     }
 
-   public List<Datensammler> parseEntries(String str) {
-        List<Datensammler> list = new ArrayList<Datensammler>();
-       String[] grob = str.split("%");
-       String[] fein={};
-       for(int i=0;i<grob.length;i++) {
-           fein=grob[i].split("§");
-           Datensammler hilf = new Datensammler();
-           hilf.setId(Integer.parseInt(fein[0]));
-           hilf.setTitel(fein[1]);
-           hilf.setBeschreibung(fein[2]);
-           hilf.setBilduri(fein[3]);
-           hilf.setDatum(fein[4]);
-           hilf.setSterne(Integer.parseInt(fein[5]));
-           hilf.setSterne(Integer.parseInt(fein[6]));
-           list.add(hilf);
-       };
-        return list;
-    }
-    public Datensammler parseEntry(String str) {
-        String[] fein = str.split("§");
-            Datensammler hilf = new Datensammler();
-            hilf.setId(Integer.parseInt(fein[0]));
-            hilf.setTitel(fein[1]);
-            hilf.setBeschreibung(fein[2]);
-            hilf.setBilduri(fein[3]);
-            hilf.setDatum(fein[4]);
-            hilf.setSterne(Integer.parseInt(fein[5]));
-            hilf.setSterne(Integer.parseInt(fein[6].substring(0,fein[6].length()-1)));
-        return hilf;
-    }
+
 }

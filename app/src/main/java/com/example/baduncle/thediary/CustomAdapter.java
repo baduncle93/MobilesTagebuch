@@ -55,6 +55,7 @@ static class Datahandler {
             handler.beschreibung =customview.findViewById(R.id.beschreibungid);
             handler.bild =customview.findViewById(R.id.bildid);
             customview.setTag(handler);
+
         }
         else {
             handler = (Datahandler) customview.getTag();

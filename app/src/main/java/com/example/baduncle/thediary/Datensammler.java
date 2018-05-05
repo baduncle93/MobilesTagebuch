@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -113,5 +115,36 @@ private int preis;
 
     public void setPreis(int preis) {
         this.preis = preis;
+    }
+
+    public static List<Datensammler> parseEntries(String str) {
+        List<Datensammler> list = new ArrayList<Datensammler>();
+        String[] grob = str.split("%");
+        String[] fein={};
+        for(int i=0;i<grob.length;i++) {
+            fein=grob[i].split("§");
+            Datensammler hilf = new Datensammler();
+            hilf.setId(Integer.parseInt(fein[0]));
+            hilf.setTitel(fein[1]);
+            hilf.setBeschreibung(fein[2]);
+            hilf.setBilduri(fein[3]);
+            hilf.setDatum(fein[4]);
+            hilf.setSterne(Integer.parseInt(fein[5]));
+            hilf.setSterne(Integer.parseInt(fein[6]));
+            list.add(hilf);
+        };
+        return list;
+    }
+    public static Datensammler parseEntry(String str) {
+        String[] fein = str.split("§");
+        Datensammler hilf = new Datensammler();
+        hilf.setId(Integer.parseInt(fein[0]));
+        hilf.setTitel(fein[1]);
+        hilf.setBeschreibung(fein[2]);
+        hilf.setBilduri(fein[3]);
+        hilf.setDatum(fein[4]);
+        hilf.setSterne(Integer.parseInt(fein[5]));
+        hilf.setSterne(Integer.parseInt(fein[6].substring(0,fein[6].length()-1)));
+        return hilf;
     }
 }
