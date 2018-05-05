@@ -17,6 +17,16 @@ private String bilduri;
 private int sterne;
 private int preis;
 
+    public Datensammler() {
+        this.id = 0;
+        this.titel = "Vorlage";
+        this.beschreibung = "Vorlage";
+        this.datum = "Vorlage";
+        this.bilduri = "Vorlage";
+        this.sterne = 0;
+        this.preis = 0;
+    }
+
     public Datensammler(int id, String titel, String beschreibung, String bilduri, String datum, int sterne, int preis) {
         this.id = id;
         this.titel = titel;

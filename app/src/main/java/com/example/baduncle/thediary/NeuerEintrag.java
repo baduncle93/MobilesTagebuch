@@ -46,7 +46,6 @@ public class NeuerEintrag extends AppCompatActivity {
     FloatingActionButton bildbutton;
     String[] permission = {Manifest.permission.CAMERA};
     private static final int requestcode=123;
-    private int eintragsid;
     EditText beschreibungstext;
     EditText titeltext;
     SharedPreferences eintragsspeicher;
@@ -60,7 +59,6 @@ public class NeuerEintrag extends AppCompatActivity {
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
-        eintragsid=1;
         neuesbild= (ImageView) findViewById(R.id.neuesbild);
         bildbutton=  findViewById(R.id.bildbutton);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
@@ -186,23 +184,11 @@ public class NeuerEintrag extends AppCompatActivity {
             return;
         }
         else{
-            String titelkey = "titel "+eintragsid;
-            String beschreibungskey = "beschreibung "+eintragsid;
-            String bildkey = "bild "+eintragsid;
             int sterne=0;
             int preis=0;
-
+            int eintragsid = 1;
             Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sterne,preis);
 
-            //Speichert Daten für Anzeige
-            eintragseditor.putString("titel"+eintrag.getId(),eintrag.getTitel());
-            eintragseditor.putString("beschreibung"+eintrag.getId(),eintrag.getBeschreibung());
-            eintragseditor.putString("bild"+eintrag.getId(),eintrag.getBilduri());
-            eintragseditor.putString("datum"+eintrag.getId(),eintrag.getDatum());
-            eintragseditor.putInt("sterne"+eintrag.getId(),eintrag.getSterne());
-            eintragseditor.putInt("preis"+eintrag.getId(),eintrag.getPreis());
-
-            eintragseditor.commit();
             //zurück zum Hauptscreen
             Intent intent = new Intent(context,Listenansicht.class);
             intent.putExtra("daten",eintrag);

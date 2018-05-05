@@ -67,16 +67,15 @@ public class Listenansicht extends AppCompatActivity {
         setContentView(R.layout.activity_listenansicht);
         FloatingActionButton button=  findViewById(R.id.addbutton_list);
         mTextMessage = (TextView) findViewById(R.id.message);
-        alledaten = new ArrayList<Datensammler>();
-        eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
-        eintragseditor = eintragsspeicher.edit();
         eintragsliste = findViewById(R.id.eintragsliste);
         neu =getIntent();
         extras=neu.getExtras();
         adapter = new CustomAdapter(context,R.layout.custom_row);
         eintragsliste.setAdapter(adapter);
-
-
+        eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
+        eintragseditor = eintragsspeicher.edit();
+        alledaten = new ArrayList<Datensammler>();
+        alledaten = parseEntries(eintragsspeicher.getString("Einträge","Fail"));
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -102,37 +101,49 @@ public class Listenansicht extends AppCompatActivity {
     }
 
     public void neuereihe() {
+        neu =getIntent();
+        extras=neu.getExtras();
         int eintragsid= extras.getInt("eintragsid");
         Datensammler daten= (Datensammler) extras.getSerializable("daten");
         StringBuilder builder = new StringBuilder();
         alledaten.add(daten);
+
         for(Datensammler d:alledaten) {
             builder.append(d.getId());
-            builder.append(",");
+            builder.append("§");
             builder.append(d.getTitel());
-            builder.append(",");
+            builder.append("§");
+            builder.append(d.getBeschreibung());
+            builder.append("§");
             builder.append(d.getBilduri());
-            builder.append(",");
+            builder.append("§");
             builder.append(d.getDatum());
-            builder.append(",");
+            builder.append("§");
             builder.append(d.getSterne());
-            builder.append(",");
+            builder.append("§");
             builder.append(d.getPreis());
-            builder.append(",");
+            builder.append("%");
         }
-        Toast.makeText(context,"So schaut der Builder aus: "+builder.toString(),Toast.LENGTH_LONG).show();
-        Log.d("FEHLER",builder.toString());
-        System.out.print("So schaut der Builder aus: "+builder.toString());
+        Toast.makeText(context,builder.toString(),Toast.LENGTH_LONG).show();
         eintragseditor.putString("Einträge",builder.toString());
         eintragseditor.commit();
 
-        String stringalledaten = eintragsspeicher.getString("Einträge","failed");
-        String[] dat = stringalledaten.split(",");
-        List<Datensammler> eineliste= new ArrayList<Datensammler>();
-       /* for(int i=0;i<dat.length;i++) {
-            eineliste.add(dat[i]);
-        }*/
-
+   /*     String stringalledaten = eintragsspeicher.getString("Einträge","failed");
+        String[] grob = stringalledaten.split("%");
+        String[] fein={};
+       for(int i=0;i<grob.length;i++) {
+           fein=grob[i].split("§");
+           Datensammler hilf = new Datensammler();
+           hilf.setId(Integer.parseInt(fein[0]));
+           hilf.setTitel(fein[1]);
+           hilf.setBeschreibung(fein[2]);
+           hilf.setBilduri(fein[3]);
+           hilf.setDatum(fein[4]);
+           hilf.setSterne(Integer.parseInt(fein[5]));
+           hilf.setSterne(Integer.parseInt(fein[6]));
+           alledaten.add(hilf);
+        };
+*/
         for(int i=0;alledaten.size() > i;i++) {
             adapter.add(alledaten.get(i));
         }
@@ -140,4 +151,22 @@ public class Listenansicht extends AppCompatActivity {
 
     }
 
+   public List<Datensammler> parseEntries(String str) {
+        List<Datensammler> list = new ArrayList<Datensammler>();
+       String[] grob = str.split("%");
+       String[] fein={};
+       for(int i=0;i<grob.length;i++) {
+           fein=grob[i].split("§");
+           Datensammler hilf = new Datensammler();
+           hilf.setId(Integer.parseInt(fein[0]));
+           hilf.setTitel(fein[1]);
+           hilf.setBeschreibung(fein[2]);
+           hilf.setBilduri(fein[3]);
+           hilf.setDatum(fein[4]);
+           hilf.setSterne(Integer.parseInt(fein[5]));
+           hilf.setSterne(Integer.parseInt(fein[6]));
+           list.add(hilf);
+       };
+        return list;
+    }
 }
