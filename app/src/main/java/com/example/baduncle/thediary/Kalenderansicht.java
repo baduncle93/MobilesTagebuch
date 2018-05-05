@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class Kalenderansicht extends AppCompatActivity {
     final Context context=this;
-    private TextView mTextMessage;
+
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -24,13 +24,13 @@ public class Kalenderansicht extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_liste:
-                    mTextMessage.setText("");
+
                     Intent intent1 = new Intent(context,Listenansicht.class);
                     startActivity(intent1);
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                     return true;
                 case R.id.navigation_kalender:
-                    mTextMessage.setText("");
+
                     return true;
             }
             return false;
@@ -42,7 +42,7 @@ public class Kalenderansicht extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kalenderansicht);
         FloatingActionButton button=  findViewById(R.id.addbutton_kal);
-        mTextMessage = (TextView) findViewById(R.id.message);
+
 
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);

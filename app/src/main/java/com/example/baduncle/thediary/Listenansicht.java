@@ -55,7 +55,7 @@ public class Listenansicht extends AppCompatActivity {
                     mTextMessage.setText("");
                     Intent intent2 = new Intent(context,Kalenderansicht.class);
                     startActivity(intent2);
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                     return true;
             }
             return false;
