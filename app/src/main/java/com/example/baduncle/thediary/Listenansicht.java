@@ -81,6 +81,7 @@ public class Listenansicht extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context,Detailansicht.class);
+                intent.putExtra("index",i);
                 intent.putExtra("eintragsid",eintragsliste.getItemAtPosition(i).toString());
                 startActivity(intent);
             }
