@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +23,22 @@ import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Listenansicht extends AppCompatActivity {
     final Context context=this;
     private TextView mTextMessage;
     SharedPreferences eintragsspeicher;
+    SharedPreferences.Editor eintragseditor;
     Intent neu;
     Bundle extras;
     TableLayout tl;
+    CustomAdapter adapter;
+    ListView eintragsliste;
+    private List<Datensammler> alledaten;
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -58,18 +67,15 @@ public class Listenansicht extends AppCompatActivity {
         setContentView(R.layout.activity_listenansicht);
         FloatingActionButton button=  findViewById(R.id.addbutton_list);
         mTextMessage = (TextView) findViewById(R.id.message);
+        alledaten = new ArrayList<Datensammler>();
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
-        SharedPreferences.Editor eintragseditor = eintragsspeicher.edit();
+        eintragseditor = eintragsspeicher.edit();
+        eintragsliste = findViewById(R.id.eintragsliste);
         neu =getIntent();
         extras=neu.getExtras();
-      //  tl=(TableLayout) findViewById(R.id.eintragstable);;
+        adapter = new CustomAdapter(context,R.layout.custom_row);
+        eintragsliste.setAdapter(adapter);
 
-        //Test der ListView
-        String[] tit = {"hallo","nasdnia","dadas","sadasdasd"};
-        String[] beschr = {"hallo","dadas","sadasdasd"};
-        ListAdapter adapter = new CustomAdapter(context,5);
-        ListView listview = (ListView) findViewById(R.id.eintragsliste);
-        listview.setAdapter(adapter);
 
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -97,33 +103,40 @@ public class Listenansicht extends AppCompatActivity {
 
     public void neuereihe() {
         int eintragsid= extras.getInt("eintragsid");
-        TableRow tr = new TableRow(context);
-        tr.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.MATCH_PARENT));
+        Datensammler daten= (Datensammler) extras.getSerializable("daten");
+        StringBuilder builder = new StringBuilder();
+        alledaten.add(daten);
+        for(Datensammler d:alledaten) {
+            builder.append(d.getId());
+            builder.append(",");
+            builder.append(d.getTitel());
+            builder.append(",");
+            builder.append(d.getBilduri());
+            builder.append(",");
+            builder.append(d.getDatum());
+            builder.append(",");
+            builder.append(d.getSterne());
+            builder.append(",");
+            builder.append(d.getPreis());
+            builder.append(",");
+        }
+        Toast.makeText(context,"So schaut der Builder aus: "+builder.toString(),Toast.LENGTH_LONG).show();
+        Log.d("FEHLER",builder.toString());
+        System.out.print("So schaut der Builder aus: "+builder.toString());
+        eintragseditor.putString("Einträge",builder.toString());
+        eintragseditor.commit();
 
-        TextView tittext=new TextView(context);
-        tittext.setWidth(100);// give how much you need
-        tittext.setText(eintragsspeicher.getString("titel "+eintragsid,"fail"));
-        TextView beschtext=new TextView(context);
-        beschtext.setWidth(100);// give how much you need
-        beschtext.setText(eintragsspeicher.getString("beschreibung "+eintragsid,"Kein Text vergeben"));
-        ImageView einbild=new ImageView(context);
-        einbild.setImageURI(Uri.parse(eintragsspeicher.getString("bild "+eintragsid,"fail")));
-       // einbild.setImageBitmap();
+        String stringalledaten = eintragsspeicher.getString("Einträge","failed");
+        String[] dat = stringalledaten.split(",");
+        List<Datensammler> eineliste= new ArrayList<Datensammler>();
+       /* for(int i=0;i<dat.length;i++) {
+            eineliste.add(dat[i]);
+        }*/
 
-       // TableRow tablerow = findViewById(R.id.tablerow1);
+        for(int i=0;alledaten.size() > i;i++) {
+            adapter.add(alledaten.get(i));
+        }
 
-//set your text
-
-        tr.addView(einbild);
-        tr.addView(tittext);
-        tr.addView(beschtext);
-
-        ImageView iv=new ImageView(this);
-// set your image
-        tr.addView(iv);
-
-        tl.addView(tr);
 
     }
 

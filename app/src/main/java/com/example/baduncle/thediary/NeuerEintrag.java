@@ -187,19 +187,25 @@ public class NeuerEintrag extends AppCompatActivity {
         }
         else{
             String titelkey = "titel "+eintragsid;
-            String titelspeichern = titel.getEditText().getText().toString();
             String beschreibungskey = "beschreibung "+eintragsid;
-            String beschreibungspeichern = beschreibung.getEditText().getText().toString();
             String bildkey = "bild "+eintragsid;
-            String bildspeichern = bilduri.toString();
+            int sterne=0;
+            int preis=0;
+
+            Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sterne,preis);
 
             //Speichert Daten für Anzeige
-            eintragseditor.putString(titelkey,titeltext.getText().toString());
-            eintragseditor.putString(beschreibungskey,beschreibungstext.getText().toString());
-            eintragseditor.putString(bildkey,bildspeichern);
+            eintragseditor.putString("titel"+eintrag.getId(),eintrag.getTitel());
+            eintragseditor.putString("beschreibung"+eintrag.getId(),eintrag.getBeschreibung());
+            eintragseditor.putString("bild"+eintrag.getId(),eintrag.getBilduri());
+            eintragseditor.putString("datum"+eintrag.getId(),eintrag.getDatum());
+            eintragseditor.putInt("sterne"+eintrag.getId(),eintrag.getSterne());
+            eintragseditor.putInt("preis"+eintrag.getId(),eintrag.getPreis());
+
             eintragseditor.commit();
             //zurück zum Hauptscreen
             Intent intent = new Intent(context,Listenansicht.class);
+            intent.putExtra("daten",eintrag);
             intent.putExtra("eintragsid",eintragsid);
             intent.putExtra("neuereintrag",true);
             eintragsid++;

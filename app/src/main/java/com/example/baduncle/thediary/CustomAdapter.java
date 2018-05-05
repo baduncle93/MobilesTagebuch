@@ -60,9 +60,12 @@ static class Datahandler {
             handler = (Datahandler) customview.getTag();
         }
 
-        handler.bild.setImageURI(Uri.parse("adas"));
-        handler.titel.setText("aa");
-        handler.beschreibung.setText("bb");
+        Datensammler daten ;
+        daten=(Datensammler) this.getItem(position);
+        handler.bild.setImageURI(Uri.parse(daten.getBilduri()));
+        handler.titel.setText(daten.getTitel());
+        handler.beschreibung.setText(daten.getBeschreibung());
+
 
         return customview;
     }
