@@ -1,12 +1,14 @@
 package com.example.baduncle.thediary;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,7 +51,9 @@ public class Detailansicht extends AppCompatActivity {
         detailbearb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(context,NeuerEintrag.class);
+                Intent intent= new Intent(context,Listenansicht.class);
+
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
@@ -59,21 +63,30 @@ public class Detailansicht extends AppCompatActivity {
         detailloesch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(context,Listenansicht.class);
-                Toast.makeText(context,"Hallo "+index,Toast.LENGTH_SHORT).show();
-                alledaten.remove(index);
+                final Intent intent= new Intent(context,Listenansicht.class);
 
-                String stringalles="";
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Willst du den Eintrag wirklich löschen?");
+                builder.setPositiveButton("Bestätigen", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alledaten.remove(index);
+                        String stringalles="";
 
-                for(int i=0;alledaten.size() > i;i++) {
-                    stringalles += alledaten.get(i).toString();
-                }
-                eintragseditor.putString("Einträge",stringalles);
-                eintragseditor.commit();
+                        for(int j=0;alledaten.size() > j;j++) {
+                            stringalles += alledaten.get(j).toString();
+                        }
+                        eintragseditor.putString("Einträge",stringalles);
+                        eintragseditor.commit();
 
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                Toast.makeText(context,"Ein Eintrag wurde erfolgreich gelöscht",Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                        Toast.makeText(context,"Eintrag mit Index "+index+" wurde erfolgreich gelöscht",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Abbrechen",null);
+                AlertDialog alert = builder.create();
+                alert.show();;
             }
         }) ;
 
