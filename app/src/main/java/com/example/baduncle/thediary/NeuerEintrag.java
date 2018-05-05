@@ -60,7 +60,6 @@ public class NeuerEintrag extends AppCompatActivity {
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
         neuesbild= (ImageView) findViewById(R.id.neuesbild);
-        bildbutton=  findViewById(R.id.bildbutton);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
@@ -97,7 +96,7 @@ public class NeuerEintrag extends AppCompatActivity {
         };
 
         //Bildauswahl mit Wählen des Kamerabuttons starten
-        bildbutton.setOnClickListener(new View.OnClickListener() {
+        neuesbild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -188,6 +187,8 @@ public class NeuerEintrag extends AppCompatActivity {
             int preis=0;
             int eintragsid = 1;
             Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sterne,preis);
+            eintragseditor.putString("stringneu",eintrag.toString());
+            eintragseditor.commit();
 
             //zurück zum Hauptscreen
             Intent intent = new Intent(context,Listenansicht.class);

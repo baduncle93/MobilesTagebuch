@@ -74,8 +74,17 @@ public class Listenansicht extends AppCompatActivity {
         eintragsliste.setAdapter(adapter);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
+
+        //Zum Löschen aller Elemente auskommentieren
+       // eintragseditor.remove("Einträge");
+       // eintragseditor.commit();
+
         alledaten = new ArrayList<Datensammler>();
-        alledaten = parseEntries(eintragsspeicher.getString("Einträge","Fail"));
+        alledaten = parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
+        for(int i=0;alledaten.size()>i;i++){
+            adapter.add(alledaten.get(i));
+        }
+
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -104,51 +113,18 @@ public class Listenansicht extends AppCompatActivity {
         neu =getIntent();
         extras=neu.getExtras();
         int eintragsid= extras.getInt("eintragsid");
-        Datensammler daten= (Datensammler) extras.getSerializable("daten");
-        StringBuilder builder = new StringBuilder();
-        alledaten.add(daten);
+        String neuereintrag = eintragsspeicher.getString("stringneu","fail");
+        alledaten.add(parseEntry(neuereintrag));
+        String stringalles="";
 
-        for(Datensammler d:alledaten) {
-            builder.append(d.getId());
-            builder.append("§");
-            builder.append(d.getTitel());
-            builder.append("§");
-            builder.append(d.getBeschreibung());
-            builder.append("§");
-            builder.append(d.getBilduri());
-            builder.append("§");
-            builder.append(d.getDatum());
-            builder.append("§");
-            builder.append(d.getSterne());
-            builder.append("§");
-            builder.append(d.getPreis());
-            builder.append("%");
-        }
-        Toast.makeText(context,builder.toString(),Toast.LENGTH_LONG).show();
-        eintragseditor.putString("Einträge",builder.toString());
-        eintragseditor.commit();
-
-   /*     String stringalledaten = eintragsspeicher.getString("Einträge","failed");
-        String[] grob = stringalledaten.split("%");
-        String[] fein={};
-       for(int i=0;i<grob.length;i++) {
-           fein=grob[i].split("§");
-           Datensammler hilf = new Datensammler();
-           hilf.setId(Integer.parseInt(fein[0]));
-           hilf.setTitel(fein[1]);
-           hilf.setBeschreibung(fein[2]);
-           hilf.setBilduri(fein[3]);
-           hilf.setDatum(fein[4]);
-           hilf.setSterne(Integer.parseInt(fein[5]));
-           hilf.setSterne(Integer.parseInt(fein[6]));
-           alledaten.add(hilf);
-        };
-*/
         for(int i=0;alledaten.size() > i;i++) {
-            adapter.add(alledaten.get(i));
+           // adapter.add(alledaten.get(i));
+            stringalles += alledaten.get(i).toString();
         }
-
-
+        eintragseditor.putString("Einträge",stringalles);
+        eintragseditor.commit();
+        Intent intent = new Intent(context,Listenansicht.class);
+        startActivity(intent);
     }
 
    public List<Datensammler> parseEntries(String str) {
@@ -168,5 +144,17 @@ public class Listenansicht extends AppCompatActivity {
            list.add(hilf);
        };
         return list;
+    }
+    public Datensammler parseEntry(String str) {
+        String[] fein = str.split("§");
+            Datensammler hilf = new Datensammler();
+            hilf.setId(Integer.parseInt(fein[0]));
+            hilf.setTitel(fein[1]);
+            hilf.setBeschreibung(fein[2]);
+            hilf.setBilduri(fein[3]);
+            hilf.setDatum(fein[4]);
+            hilf.setSterne(Integer.parseInt(fein[5]));
+            hilf.setSterne(Integer.parseInt(fein[6].substring(0,fein[6].length()-1)));
+        return hilf;
     }
 }

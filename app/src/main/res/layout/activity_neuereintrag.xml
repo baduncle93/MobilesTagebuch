@@ -19,18 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/neuesbild" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/bildbutton"
-        android:layout_width="50dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="66dp"
-        android:layout_marginStart="10dp"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_blue_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/layout2"
         android:layout_width="200dp"
@@ -60,7 +48,7 @@
         android:layout_marginTop="5dp"
         app:errorEnabled="true"
         app:counterEnabled="true"
-        app:counterMaxLength="900"
+        app:counterMaxLength="700"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

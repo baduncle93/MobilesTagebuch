@@ -38,6 +38,27 @@ private int preis;
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+            builder.append(this.getId());
+            builder.append("§");
+            builder.append(this.getTitel());
+            builder.append("§");
+            builder.append(this.getBeschreibung());
+            builder.append("§");
+            builder.append(this.getBilduri());
+            builder.append("§");
+            builder.append(this.getDatum());
+            builder.append("§");
+            builder.append(this.getSterne());
+            builder.append("§");
+            builder.append(this.getPreis());
+            builder.append("%");
+
+        return builder.toString();
+    }
+
     public int getId() {
         return id;
     }
