@@ -2,45 +2,19 @@ package com.example.baduncle.thediary;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
-=======
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.TableLayout;
-import android.widget.TableRow;
->>>>>>> be8cc9772a40570d0fb91f46159cdeb25905fcf3
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Listenansicht extends AppCompatActivity {
     final Context context=this;
     private TextView mTextMessage;
-    SharedPreferences eintragsspeicher;
-    SharedPreferences.Editor eintragseditor;
-    Intent neu;
-    Bundle extras;
-    TableLayout tl;
-    CustomAdapter adapter;
-    ListView eintragsliste;
-    private List<Datensammler> alledaten;
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -56,7 +30,7 @@ public class Listenansicht extends AppCompatActivity {
                     mTextMessage.setText("");
                     Intent intent2 = new Intent(context,Kalenderansicht.class);
                     startActivity(intent2);
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
 
                 case R.id.navigation_search:
@@ -76,6 +50,7 @@ public class Listenansicht extends AppCompatActivity {
         setContentView(R.layout.activity_listenansicht);
         FloatingActionButton button=  findViewById(R.id.addbutton_list);
         mTextMessage = (TextView) findViewById(R.id.message);
+<<<<<<< HEAD
         eintragsliste = findViewById(R.id.eintragsliste);
         neu =getIntent();
         extras=neu.getExtras();
@@ -105,6 +80,8 @@ public class Listenansicht extends AppCompatActivity {
         for(int i=0;alledaten.size()>i;i++){
             adapter.add(alledaten.get(i));
         }
+=======
+>>>>>>> parent of 321342a... Merge branch 'master' of https://github.com/baduncle93/MobilesTagebuch
 
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -122,31 +99,6 @@ public class Listenansicht extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         }) ;
-        if (extras != null) {
-            if (extras.containsKey("neuereintrag")) {
-                neuereihe();
-            }
-        }
-
     }
-
-    public void neuereihe() {
-        neu =getIntent();
-        extras=neu.getExtras();
-        int eintragsid= extras.getInt("eintragsid");
-        String neuereintrag = eintragsspeicher.getString("stringneu","fail");
-        alledaten.add(Datensammler.parseEntry(neuereintrag));
-        String stringalles="";
-
-        for(int i=0;alledaten.size() > i;i++) {
-           // adapter.add(alledaten.get(i));
-            stringalles += alledaten.get(i).toString();
-        }
-        eintragseditor.putString("Einträge",stringalles);
-        eintragseditor.commit();
-        Intent intent = new Intent(context,Listenansicht.class);
-        startActivity(intent);
-    }
-
 
 }

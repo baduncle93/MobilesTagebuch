@@ -28,21 +28,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name=".Kalenderansicht" />
         <activity
             android:name=".NeuerEintrag"
             android:screenOrientation="portrait" />
         <activity android:name=".SearchActivity"></activity>
-=======
-        <activity android:name=".Kalenderansicht"></activity>
-        <activity android:name=".NeuerEintrag"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Test"></activity>
-        <activity android:name=".Detailansicht"></activity>
-        <activity android:name=".EintragEdit"></activity>
->>>>>>> be8cc9772a40570d0fb91f46159cdeb25905fcf3
     </application>
-
 
 </manifest>
