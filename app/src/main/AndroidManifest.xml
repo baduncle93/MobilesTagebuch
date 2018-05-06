@@ -40,8 +40,11 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Test"></activity>
         <activity android:name=".Detailansicht"></activity>
+<<<<<<< HEAD
         <activity android:name=".EintragEdit"></activity>
 >>>>>>> be8cc9772a40570d0fb91f46159cdeb25905fcf3
+=======
+>>>>>>> parent of be8cc97... added edit activity / but doesnt work yet
     </application>
 
 

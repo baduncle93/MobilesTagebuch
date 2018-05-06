@@ -51,9 +51,9 @@ public class Detailansicht extends AppCompatActivity {
         detailbearb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(context,EintragEdit.class);
-                intent.putExtra("editeintrag",alledaten.get(index).toString());
-                intent.putExtra("index",index);
+                Intent intent= new Intent(context,Listenansicht.class);
+
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
