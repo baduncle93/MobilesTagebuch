@@ -29,7 +29,7 @@ public class Detailansicht extends AppCompatActivity {
         eintragsspeicher=getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
         alledaten = new ArrayList<Datensammler>();
-        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§"+Uri.parse("android.resource://com.example.baduncle.thediary/drawable/instagram").toString()+"§01.01.2000§0§0%"));
 
         super.onCreate(savedInstanceState);
         final Context context=this;
