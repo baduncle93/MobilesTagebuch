@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#17afeb</color>
     <color name="colorPrimaryDark">#0e5774</color>
-    <color name="colorAccent">#e92b6b</color>
+    <color name="colorAccent">#0300c2</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorEintragsHintergrund">#E0ECF8</color>
     <color name="colorHintergrund">#585858</color>
@@ -11,4 +11,9 @@
     <color name="colorStarsBackground">#cdc8b8</color>
     <color name="colorDollar">#266e3e</color>
     <color name="colorDollarDark">#7d7d7d</color>
+    <color name="colorStart">#FFCC80</color>
+    <color name="smoothWhite">#FDFDFE</color>
+    <color name="white">#FFFFFF</color>
+    <color name="buttonColorStart">#535fff</color>
+    <color name="buttonColorEnd">#3bd5ff</color>
 </resources>

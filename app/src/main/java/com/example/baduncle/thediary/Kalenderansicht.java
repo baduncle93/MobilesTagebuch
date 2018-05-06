@@ -13,14 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CalendarView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +51,13 @@ public class Kalenderansicht extends AppCompatActivity {
                     return true;
                 case R.id.navigation_kalender:
 
+                    return true;
+
+                case R.id.navigation_search:
+
+                    Intent intent3 = new Intent(context,SearchActivity.class);
+                    startActivity(intent3);
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                     return true;
             }
             return false;
