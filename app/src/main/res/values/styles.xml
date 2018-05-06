@@ -8,16 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="RatingBarStar">
-        <item name="android:progressTint">@color/colorStars</item>
-        <item name="android:secondaryProgressTint">@color/colorStarsDark</item>
-        <item name=" android:progressBackgroundTint">@color/colorStarsBackground</item>
-    </style>
-
-    <style name="RatingBarDollar">
-        <item name="android:progressTint">@color/colorDollar</item>
-        <item name="android:secondaryProgressTint">@color/colorDollarDark</item>
-        <item name="android:progressDrawable">@drawable/rating_bar_dollar</item>
-    </style>
-
 </resources>

@@ -1,10 +1,12 @@
 package com.example.baduncle.thediary;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
-=======
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +23,6 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
->>>>>>> be8cc9772a40570d0fb91f46159cdeb25905fcf3
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,13 +56,6 @@ public class Listenansicht extends AppCompatActivity {
                     Intent intent2 = new Intent(context,Kalenderansicht.class);
                     startActivity(intent2);
                     overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-                    return true;
-
-                case R.id.navigation_search:
-                    mTextMessage.setText("");
-                    Intent intent3 = new Intent(context,SearchActivity.class);
-                    startActivity(intent3);
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
             }
             return false;
@@ -101,7 +93,7 @@ public class Listenansicht extends AppCompatActivity {
        // eintragseditor.commit();
 
         alledaten = new ArrayList<Datensammler>();
-        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§"+Uri.parse("android.resource://com.example.baduncle.thediary/drawable/instagram").toString()+"§01.01.2000§0§0%"));
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
         for(int i=0;alledaten.size()>i;i++){
             adapter.add(alledaten.get(i));
         }
