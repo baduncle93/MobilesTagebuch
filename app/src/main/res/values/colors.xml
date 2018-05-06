@@ -6,4 +6,9 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorEintragsHintergrund">#E0ECF8</color>
     <color name="colorHintergrund">#585858</color>
+    <color name="colorStars">#ffd343</color>
+    <color name="colorStarsDark">#cfab37</color>
+    <color name="colorStarsBackground">#cdc8b8</color>
+    <color name="colorDollar">#266e3e</color>
+    <color name="colorDollarDark">#7d7d7d</color>
 </resources>
