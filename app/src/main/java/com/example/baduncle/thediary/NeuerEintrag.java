@@ -66,7 +66,7 @@ public class NeuerEintrag extends AppCompatActivity {
         eintragseditor = eintragsspeicher.edit();
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
         titeltext = (EditText) findViewById(R.id.titel);
-        bilduri=Uri.parse("abc");
+        bilduri=Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture");
 
         Calendar kalender = Calendar.getInstance();
         final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");

@@ -89,8 +89,8 @@ public class Listenansicht extends AppCompatActivity {
             }
         });
         //Zum Löschen aller Elemente auskommentieren
-       // eintragseditor.remove("Einträge");
-       // eintragseditor.commit();
+        //eintragseditor.remove("Einträge");
+        //eintragseditor.commit();
 
         alledaten = new ArrayList<Datensammler>();
         alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));

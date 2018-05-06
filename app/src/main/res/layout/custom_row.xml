@@ -11,7 +11,7 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_margin="5dp"
-        app:srcCompat="@drawable/instagram" />
+        app:srcCompat="@drawable/defaultpicture" />
 
     <TextView
         android:id="@+id/titelid"
