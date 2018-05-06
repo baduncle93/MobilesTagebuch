@@ -101,6 +101,7 @@ public class Kalenderansicht extends AppCompatActivity {
                         anwahldatum.add(d);
                     }
                 }
+
                 if(anwahldatum.size()==1) {
                     Datensammler eintrag = anwahldatum.get(0);
                     intent.putExtra("index",eintrag.getId());

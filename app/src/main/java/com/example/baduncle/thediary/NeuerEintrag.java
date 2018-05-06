@@ -31,8 +31,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class NeuerEintrag extends AppCompatActivity {
 
@@ -67,7 +69,7 @@ public class NeuerEintrag extends AppCompatActivity {
         bilduri=Uri.parse("abc");
 
         Calendar kalender = Calendar.getInstance();
-        SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
+        final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
         datum.setText(datumsformat.format(kalender.getTime()));
 
         //Eingabefeld für Datum anzeigen
@@ -90,8 +92,14 @@ public class NeuerEintrag extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int jahr, int monat, int tag) {
             monat=monat+1;
+            Date date = new Date();
             String datumstring = tag+"."+monat+"."+jahr;
-            datum.setText(datumstring);
+                try {
+                    date = datumsformat.parse(datumstring);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                datum.setText(datumsformat.format(date));
             }
         };
 
