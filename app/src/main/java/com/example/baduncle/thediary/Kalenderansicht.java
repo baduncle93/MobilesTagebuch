@@ -30,6 +30,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class Kalenderansicht extends AppCompatActivity {
+<<<<<<< HEAD
+    final Context context = this;
+    private TextView mTextMessage;
+=======
     final Context context=this;
     CompactCalendarView cal;
     SharedPreferences eintragsspeicher;
@@ -38,6 +42,7 @@ public class Kalenderansicht extends AppCompatActivity {
     List<Datensammler> anwahldatum;
     SimpleDateFormat formatmonat = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
     SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+>>>>>>> be8cc9772a40570d0fb91f46159cdeb25905fcf3
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -54,6 +59,13 @@ public class Kalenderansicht extends AppCompatActivity {
                     return true;
                 case R.id.navigation_kalender:
 
+                    return true;
+
+                case R.id.navigation_search:
+                    mTextMessage.setText("");
+                    Intent intent3 = new Intent(context,SearchActivity.class);
+                    startActivity(intent3);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
             }
             return false;
