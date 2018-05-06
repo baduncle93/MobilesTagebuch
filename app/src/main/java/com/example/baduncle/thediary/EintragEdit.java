@@ -1,7 +1,6 @@
 package com.example.baduncle.thediary;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -17,13 +16,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,11 +32,12 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class NeuerEintrag extends AppCompatActivity {
-
+public class EintragEdit extends AppCompatActivity {
     private TextInputLayout titel;
     private TextInputLayout beschreibung;
     private TextView datum;
@@ -53,6 +53,11 @@ public class NeuerEintrag extends AppCompatActivity {
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
     Uri bilduri;
+    Intent editintent;
+    Bundle extras;
+    Datensammler bearbeintrag;
+    List<Datensammler> alledaten;
+    int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +65,26 @@ public class NeuerEintrag extends AppCompatActivity {
         setContentView(R.layout.activity_neuereintrag);
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
-        datum = (TextView) findViewById(R.id.datum);
-        neuesbild= (ImageView) findViewById(R.id.neuesbild);
+        datum = (TextView) findViewById(R.id.editdatum);
+        final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
+        neuesbild= (ImageView) findViewById(R.id.editneuesbild);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
-        beschreibungstext = (EditText) findViewById(R.id.beschreibung);
-        titeltext = (EditText) findViewById(R.id.titel);
-        bilduri=Uri.parse("abc");
-
-        Calendar kalender = Calendar.getInstance();
-        final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
-        datum.setText(datumsformat.format(kalender.getTime()));
-
+        alledaten = new ArrayList<Datensammler>();
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
+        beschreibungstext = (EditText) findViewById(R.id.editbeschreibung);
+        titeltext = (EditText) findViewById(R.id.edittitel);
+        bilduri = Uri.parse("abc");
+        editintent = getIntent();
+        extras = editintent.getExtras();
+        bearbeintrag = Datensammler.parseEntry(extras.getString("editeintrag","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
+        index = extras.getInt("index",1);
+        /*
+        titeltext.setText(bearbeintrag.getTitel());
+        beschreibungstext.setText(bearbeintrag.getBeschreibung());
+        datum.setText(bearbeintrag.getDatum());
+        neuesbild.setImageURI(Uri.parse(bearbeintrag.getBilduri()));
+*/
         //Eingabefeld für Datum anzeigen
         datum.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +104,9 @@ public class NeuerEintrag extends AppCompatActivity {
         ondatesetlistener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int jahr, int monat, int tag) {
-            monat=monat+1;
-            Date date = new Date();
-            String datumstring = tag+"."+monat+"."+jahr;
+                monat=monat+1;
+                Date date = new Date();
+                String datumstring = tag+"."+monat+"."+jahr;
                 try {
                     date = datumsformat.parse(datumstring);
                 } catch (ParseException e) {
@@ -125,11 +138,11 @@ public class NeuerEintrag extends AppCompatActivity {
                 if(items[i].equals("Kamera")){
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if(ContextCompat.checkSelfPermission(context,permission[0])==PackageManager.PERMISSION_GRANTED) {
+                    if(ContextCompat.checkSelfPermission(context,permission[0])== PackageManager.PERMISSION_GRANTED) {
                         startActivityForResult(intent, 1);
                     }
                     else {
-                        ActivityCompat.requestPermissions(NeuerEintrag.this,permission,requestcode);
+                        ActivityCompat.requestPermissions(EintragEdit.this,permission,requestcode);
                     }
                 }
                 else if (items[i].equals("Gallerie")){
@@ -184,7 +197,7 @@ public class NeuerEintrag extends AppCompatActivity {
             titel.setError(null);
             return true;
         }
-        }
+    }
 
     //Überprüfung ob Titelfeld leer ist
     private boolean falscheszeichen(){
@@ -208,20 +221,19 @@ public class NeuerEintrag extends AppCompatActivity {
         else{
             int sterne=0;
             int preis=0;
-            int eintragsid = 1;
-            Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sterne,preis);
+            Datensammler eintrag = new Datensammler(bearbeintrag.getId(),titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sterne,preis);
+            alledaten.remove(index);
+            alledaten.add(index,eintrag);
             eintragseditor.putString("stringneu",eintrag.toString());
             eintragseditor.commit();
 
             //zurück zum Hauptscreen
             Intent intent = new Intent(context,Listenansicht.class);
-            intent.putExtra("daten",eintrag);
-            intent.putExtra("eintragsid",eintragsid);
-            intent.putExtra("neuereintrag",true);
-            eintragsid++;
+            intent.putExtra("eintragsid",bearbeintrag.getId());
+
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-            Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Eintrag wurde erfolgreich bearbeitet",Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -6,188 +6,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Listenansicht">
+    tools:context=".Listenansicht"
+    >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorHintergrund">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:outlineProvider="bounds"
-                android:padding="1dp"
-                android:layout_margin="1dp"
-                android:background="@color/colorEintragsHintergrund">
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    app:srcCompat="@drawable/ic_home_black_24dp" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="235dp"
-                    android:layout_height="100dp"
-                    android:text="TextView" />
-            </TableRow>
-
-        </TableLayout>
-    </ScrollView>
     <TextView
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="800dp"
         android:layout_marginBottom="0dp"
+        android:layout_marginLeft="800dp"
         android:layout_marginTop="0dp"
         android:text="@string/title_home"
         android:textColor="@color/colorWhite"
@@ -209,7 +36,7 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addbutton_list"
         android:layout_width="50dp"
-        android:layout_height="54dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:clickable="true"
@@ -217,5 +44,14 @@
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/add_button" />
+
+    <ListView
+        android:id="@+id/eintragsliste"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="5dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
