@@ -28,6 +28,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Test"></activity>
         <activity android:name=".Detailansicht"></activity>
+        <activity android:name=".EintragEdit"></activity>
     </application>
 
 
