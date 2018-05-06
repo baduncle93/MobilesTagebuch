@@ -3,10 +3,12 @@ package com.example.baduncle.thediary;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,17 +17,27 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class Kalenderansicht extends AppCompatActivity {
     final Context context=this;
-    CalendarView cal;
+    CompactCalendarView cal;
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
     List<Datensammler> alledaten;
     List<Datensammler> anwahldatum;
-
+    SimpleDateFormat formatmonat = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
+    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -55,18 +67,37 @@ public class Kalenderansicht extends AppCompatActivity {
         eintragseditor = eintragsspeicher.edit();
         alledaten = new ArrayList<Datensammler>();
         alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
-
+        final ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(false);
+        actionbar.setTitle(formatmonat.format(new Date()));
         setContentView(R.layout.activity_kalenderansicht);
         FloatingActionButton button=  findViewById(R.id.addbutton_kal);
         cal= findViewById(R.id.kalender);
-        cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        cal.setUseThreeLetterAbbreviation(true);
+        cal.setLocale(TimeZone.getDefault(),Locale.GERMANY);
+
+        //Events in Kalender eintragen
+        for(Datensammler d:alledaten) {
+            Date datum = new Date();
+            try {
+                datum = format.parse(d.getDatum());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long eventtime = datum.getTime();
+            Event ev= new Event(Color.BLUE,eventtime,d.getTitel());
+            cal.addEvent(ev);
+        }
+
+        //Durch Auswahl eines Datums im Kalender eine Detailansicht öffnen
+        cal.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+            public void onDayClick(Date dateClicked) {
                 anwahldatum = new ArrayList<Datensammler>();
-                String datum = i2+"."+(i1+1)+"."+i;
+                String hilfsstring = format.format(dateClicked);
                 Intent intent = new Intent(context,Detailansicht.class);
                 for(Datensammler d:alledaten){
-                    if(d.getDatum().equals(datum)) {
+                    if(d.getDatum().equals(hilfsstring)) {
                         anwahldatum.add(d);
                     }
                 }
@@ -79,6 +110,12 @@ public class Kalenderansicht extends AppCompatActivity {
                 if(anwahldatum.size()>1){
                     Toast.makeText(context,"An diesem Tag gibt es mehr als einen Eintrag!",Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            //Monatsanzeige beim Swipen verändern
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+            actionbar.setTitle(formatmonat.format(firstDayOfNewMonth));
             }
         });
 
