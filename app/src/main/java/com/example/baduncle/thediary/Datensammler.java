@@ -130,7 +130,7 @@ private int preis;
             hilf.setBilduri(fein[3]);
             hilf.setDatum(fein[4]);
             hilf.setSterne(Integer.parseInt(fein[5]));
-            hilf.setSterne(Integer.parseInt(fein[6]));
+            hilf.setPreis(Integer.parseInt(fein[6]));
             list.add(hilf);
         };
         return list;
@@ -144,7 +144,7 @@ private int preis;
         hilf.setBilduri(fein[3]);
         hilf.setDatum(fein[4]);
         hilf.setSterne(Integer.parseInt(fein[5]));
-        hilf.setSterne(Integer.parseInt(fein[6].substring(0,fein[6].length()-1)));
+        hilf.setPreis(Integer.parseInt(fein[6].substring(0,fein[6].length()-1)));
         return hilf;
     }
 }

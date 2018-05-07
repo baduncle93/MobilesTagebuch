@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,9 +51,13 @@ public class NeuerEintrag extends AppCompatActivity {
     private static final int requestcode=123;
     EditText beschreibungstext;
     EditText titeltext;
+    RatingBar sterne;
+    RatingBar preis;
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
     Uri bilduri;
+    int sternint;
+    int preisint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +66,16 @@ public class NeuerEintrag extends AppCompatActivity {
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
-        neuesbild= (ImageView) findViewById(R.id.neuesbild);
+        neuesbild = (ImageView) findViewById(R.id.neuesbild);
+        sterne =(RatingBar) findViewById(R.id.ratingBar_star_small);
+        preis = (RatingBar) findViewById(R.id.ratingBar_dollar_small);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
         titeltext = (EditText) findViewById(R.id.titel);
         bilduri=Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture");
+        sternint=0;
+        preisint=0;
 
         Calendar kalender = Calendar.getInstance();
         final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
@@ -102,6 +111,22 @@ public class NeuerEintrag extends AppCompatActivity {
                 datum.setText(datumsformat.format(date));
             }
         };
+
+        sterne.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                sternint = Math.round(v);
+
+            }
+        });
+
+        preis.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                preisint = Math.round(v);
+
+            }
+        });
 
         //Bildauswahl mit Wählen des Kamerabuttons starten
         neuesbild.setOnClickListener(new View.OnClickListener() {
@@ -206,10 +231,8 @@ public class NeuerEintrag extends AppCompatActivity {
             return;
         }
         else{
-            int sterne=0;
-            int preis=0;
             int eintragsid = 1;
-            Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sterne,preis);
+            Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
             eintragseditor.putString("stringneu",eintrag.toString());
             eintragseditor.commit();
 

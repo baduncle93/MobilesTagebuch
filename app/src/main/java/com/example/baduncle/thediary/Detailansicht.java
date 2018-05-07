@@ -12,9 +12,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.baduncle.thediary.Listenansicht;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,8 @@ public class Detailansicht extends AppCompatActivity {
         TextView beschreibung = findViewById(R.id.detailbeschreibung);;
         TextView datum = findViewById(R.id.detaildatum);;
         ImageView bild = findViewById(R.id.detailbild);;
+        TextView sterne = findViewById(R.id.sterntext);
+        TextView preis = findViewById(R.id.preistext);
         FloatingActionButton detailbearb=  findViewById(R.id.detailbearb);
         FloatingActionButton detailloesch=  findViewById(R.id.detailloesch);
 
@@ -51,7 +56,7 @@ public class Detailansicht extends AppCompatActivity {
         detailbearb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(context,EintragEdit.class);
+                Intent intent= new Intent(context,NeuerEintrag.class);
                 intent.putExtra("editeintrag",alledaten.get(index).toString());
                 intent.putExtra("index",index);
                 startActivity(intent);
@@ -95,5 +100,8 @@ public class Detailansicht extends AppCompatActivity {
         beschreibung.setText(eintrag.getBeschreibung());
         datum.setText(eintrag.getDatum());
         bild.setImageURI(Uri.parse(eintrag.getBilduri()));
+        Toast.makeText(context,eintragsid,Toast.LENGTH_SHORT).show();
+        sterne.setText(""+eintrag.getSterne());
+        preis.setText(""+eintrag.getPreis());
     }
 }
