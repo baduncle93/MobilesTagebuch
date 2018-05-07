@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -33,12 +35,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class NeuerEintrag extends AppCompatActivity {
 
@@ -67,11 +72,16 @@ public class NeuerEintrag extends AppCompatActivity {
     Bundle editextras;
     Datensammler editeintrag;
     String stringalles;
+    private File foto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neuereintrag);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
@@ -184,6 +194,11 @@ public class NeuerEintrag extends AppCompatActivity {
                 if(items[i].equals("Kamera")){
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    foto = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),"NoteLookPicture"+ UUID.randomUUID()+".jpg");
+                    bilduri = Uri.fromFile(foto);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,bilduri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
                     if(ContextCompat.checkSelfPermission(context,permission[0])==PackageManager.PERMISSION_GRANTED) {
                         startActivityForResult(intent, 1);
                     }
@@ -219,10 +234,17 @@ public class NeuerEintrag extends AppCompatActivity {
         super.onActivityResult(requestcode,resultcode,data);
         if (resultcode == Activity.RESULT_OK){
             if(requestcode==1) {
-                Bundle bundle = data.getExtras();
-                bitmap = (Bitmap) bundle.get("data");
-                bilduri = getImageUri(context,bitmap);
-                neuesbild.setImageURI(bilduri);
+                if(foto.exists()) {
+                 //   Bundle bundle = data.getExtras();
+                 //   bitmap = (Bitmap) bundle.get("data");
+                    Log.d("Debug","Message: "+bitmap);
+                  //  bilduri = getImageUri(context,bitmap);
+                    bilduri=Uri.fromFile(foto);
+                    neuesbild.setImageURI(bilduri);
+                }
+                else {
+                    Toast.makeText(context,"Foto machen fehlgeschlagen",Toast.LENGTH_SHORT).show();
+                }
             }
             else if(requestcode==2) {
                 bilduri = data.getData();
@@ -308,6 +330,7 @@ public class NeuerEintrag extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes); // Used for compression rate of the Image : 100 means no compression
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "xyz", null);
+        //String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/" + "Camera";
         return Uri.parse(path);
     }
 }
