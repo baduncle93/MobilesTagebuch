@@ -66,6 +66,7 @@ public class NeuerEintrag extends AppCompatActivity {
     Intent editintent;
     Bundle editextras;
     Datensammler editeintrag;
+    String stringalles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class NeuerEintrag extends AppCompatActivity {
         bilduri=Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture");
         sternint=0;
         preisint=0;
+        stringalles="";
         editintent=getIntent();
         editextras=editintent.getExtras();
 
@@ -266,33 +268,34 @@ public class NeuerEintrag extends AppCompatActivity {
             Datensammler eintrag = new Datensammler(0,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
             if(editextras != null) {
                 if (editextras.containsKey("editeintrag")) {
+                    //Eintrag editieren
                     eintrag.setId(index);
                     alledaten.remove(index);
                     alledaten.add(index,eintrag);
-                    String stringalles="";
                     for(int j=0;alledaten.size() > j;j++) {
                         stringalles += alledaten.get(j).toString();
                     }
                     eintragseditor.putString("Einträge",stringalles);
                     eintragseditor.commit();
-                    Log.d("Bishierundnichtweiter",""+stringalles);
+                    //zurück zum Hauptscreen
                     Intent intent = new Intent(context,Listenansicht.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    Toast.makeText(context,"Eintrag wurde erfolgreich bearbeitet",Toast.LENGTH_SHORT).show();
                 }
             }
             else{
-                int eintragsid = 1;
-                eintrag.setId(eintragsid);
-                eintragseditor.putString("stringneu",eintrag.toString());
-                eintragseditor.commit();
+                //neuen Eintrag einfügen
+                eintrag.setId(alledaten.size());
+                alledaten.add(eintrag);
+                for(int j=0;alledaten.size() > j;j++) {
+                    stringalles += alledaten.get(j).toString();
+                }
 
+                eintragseditor.putString("Einträge",stringalles);
+                eintragseditor.commit();
                 //zurück zum Hauptscreen
                 Intent intent = new Intent(context,Listenansicht.class);
-                intent.putExtra("daten",eintrag);
-                intent.putExtra("eintragsid",eintragsid);
-                intent.putExtra("neuereintrag",true);
-                eintragsid++;
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                 Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();

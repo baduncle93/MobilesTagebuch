@@ -112,31 +112,7 @@ public class Listenansicht extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         }) ;
-        if (extras != null) {
-            if (extras.containsKey("neuereintrag")) {
-                neuereihe();
-            }
-        }
 
     }
-
-    public void neuereihe() {
-        neu =getIntent();
-        extras=neu.getExtras();
-        int eintragsid= extras.getInt("eintragsid");
-        String neuereintrag = eintragsspeicher.getString("stringneu","fail");
-        alledaten.add(Datensammler.parseEntry(neuereintrag));
-        String stringalles="";
-
-        for(int i=0;alledaten.size() > i;i++) {
-           // adapter.add(alledaten.get(i));
-            stringalles += alledaten.get(i).toString();
-        }
-        eintragseditor.putString("Einträge",stringalles);
-        eintragseditor.commit();
-        Intent intent = new Intent(context,Listenansicht.class);
-        startActivity(intent);
-    }
-
 
 }
