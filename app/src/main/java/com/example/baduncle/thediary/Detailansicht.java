@@ -50,6 +50,10 @@ public class Detailansicht extends AppCompatActivity {
         TextView preis = findViewById(R.id.preistext);
         FloatingActionButton detailbearb=  findViewById(R.id.detailbearb);
         FloatingActionButton detailloesch=  findViewById(R.id.detailloesch);
+        findViewById(R.id.stern).setVisibility(View.VISIBLE);
+        findViewById(R.id.dollar).setVisibility(View.VISIBLE);
+        preis.setVisibility(View.VISIBLE);
+        sterne.setVisibility(View.VISIBLE);
 
         //Eintrag bearbeiten
         detailbearb.setOnClickListener(new View.OnClickListener() {
@@ -94,12 +98,20 @@ public class Detailansicht extends AppCompatActivity {
             }
         }) ;
 
-
         titel.setText(eintrag.getTitel());
         beschreibung.setText(eintrag.getBeschreibung());
         datum.setText(eintrag.getDatum());
         bild.setImageURI(Uri.parse(eintrag.getBilduri()));
         sterne.setText(""+eintrag.getSterne());
         preis.setText(""+eintrag.getPreis());
+        if(Integer.parseInt(sterne.getText().toString())<1) {
+            sterne.setVisibility(View.INVISIBLE);
+            findViewById(R.id.stern).setVisibility(View.INVISIBLE);
+        }
+        if(Integer.parseInt(preis.getText().toString())<1) {
+            preis.setVisibility(View.INVISIBLE);
+            findViewById(R.id.dollar).setVisibility(View.INVISIBLE);
+        }
+
     }
 }
