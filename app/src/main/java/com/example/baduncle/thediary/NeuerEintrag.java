@@ -15,6 +15,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +24,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -32,10 +35,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 public class NeuerEintrag extends AppCompatActivity {
 
@@ -55,14 +63,25 @@ public class NeuerEintrag extends AppCompatActivity {
     RatingBar preis;
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
+    List<Datensammler> alledaten;
     Uri bilduri;
     int sternint;
     int preisint;
+    int index;
+    Intent editintent;
+    Bundle editextras;
+    Datensammler editeintrag;
+    String stringalles;
+    private File foto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neuereintrag);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
@@ -71,15 +90,40 @@ public class NeuerEintrag extends AppCompatActivity {
         preis = (RatingBar) findViewById(R.id.ratingBar_dollar_small);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
+        alledaten = new ArrayList<Datensammler>();
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
         titeltext = (EditText) findViewById(R.id.titel);
         bilduri=Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture");
         sternint=0;
         preisint=0;
+        stringalles="";
+        editintent=getIntent();
+        editextras=editintent.getExtras();
 
+        //Datum auf heutiges Datum setzen
         Calendar kalender = Calendar.getInstance();
         final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
         datum.setText(datumsformat.format(kalender.getTime()));
+
+        //Wenn Eintrag editiert wird, diesen laden
+        if(editextras != null){
+            if(editextras.containsKey("editeintrag")) {
+                editeintrag= Datensammler.parseEntry(editextras.getString("editeintrag"));
+                index=editextras.getInt("index");
+                titeltext.setText(editeintrag.getTitel());
+                beschreibungstext.setText(editeintrag.getBeschreibung());
+                neuesbild.setImageURI(Uri.parse(editeintrag.getBilduri()));
+                bilduri = Uri.parse(editeintrag.getBilduri());
+                datum.setText(editeintrag.getDatum());
+                sterne.setRating(editeintrag.getSterne());
+                sternint = editeintrag.getSterne();
+                preis.setRating(editeintrag.getPreis());
+                preisint = editeintrag.getPreis();
+            }
+        }
+
+
 
         //Eingabefeld für Datum anzeigen
         datum.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +194,11 @@ public class NeuerEintrag extends AppCompatActivity {
                 if(items[i].equals("Kamera")){
 
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    foto = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),"NoteLookPicture"+ UUID.randomUUID()+".jpg");
+                    bilduri = Uri.fromFile(foto);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,bilduri);
+                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
                     if(ContextCompat.checkSelfPermission(context,permission[0])==PackageManager.PERMISSION_GRANTED) {
                         startActivityForResult(intent, 1);
                     }
@@ -185,10 +234,17 @@ public class NeuerEintrag extends AppCompatActivity {
         super.onActivityResult(requestcode,resultcode,data);
         if (resultcode == Activity.RESULT_OK){
             if(requestcode==1) {
-                Bundle bundle = data.getExtras();
-                bitmap = (Bitmap) bundle.get("data");
-                bilduri = getImageUri(context,bitmap);
-                neuesbild.setImageURI(bilduri);
+                if(foto.exists()) {
+                 //   Bundle bundle = data.getExtras();
+                 //   bitmap = (Bitmap) bundle.get("data");
+                    Log.d("Debug","Message: "+bitmap);
+                  //  bilduri = getImageUri(context,bitmap);
+                    bilduri=Uri.fromFile(foto);
+                    neuesbild.setImageURI(bilduri);
+                }
+                else {
+                    Toast.makeText(context,"Foto machen fehlgeschlagen",Toast.LENGTH_SHORT).show();
+                }
             }
             else if(requestcode==2) {
                 bilduri = data.getData();
@@ -231,20 +287,42 @@ public class NeuerEintrag extends AppCompatActivity {
             return;
         }
         else{
-            int eintragsid = 1;
-            Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
-            eintragseditor.putString("stringneu",eintrag.toString());
-            eintragseditor.commit();
+            Datensammler eintrag = new Datensammler(0,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
+            if(editextras != null) {
+                if (editextras.containsKey("editeintrag")) {
+                    //Eintrag editieren
+                    eintrag.setId(index);
+                    alledaten.remove(index);
+                    alledaten.add(index,eintrag);
+                    for(int j=0;alledaten.size() > j;j++) {
+                        stringalles += alledaten.get(j).toString();
+                    }
+                    eintragseditor.putString("Einträge",stringalles);
+                    eintragseditor.commit();
+                    //zurück zum Hauptscreen
+                    Intent intent = new Intent(context,Listenansicht.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    Toast.makeText(context,"Eintrag wurde erfolgreich bearbeitet",Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                //neuen Eintrag einfügen
+                eintrag.setId(alledaten.size());
+                alledaten.add(eintrag);
+                for(int j=0;alledaten.size() > j;j++) {
+                    stringalles += alledaten.get(j).toString();
+                }
 
-            //zurück zum Hauptscreen
-            Intent intent = new Intent(context,Listenansicht.class);
-            intent.putExtra("daten",eintrag);
-            intent.putExtra("eintragsid",eintragsid);
-            intent.putExtra("neuereintrag",true);
-            eintragsid++;
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-            Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
+                eintragseditor.putString("Einträge",stringalles);
+                eintragseditor.commit();
+                //zurück zum Hauptscreen
+                Intent intent = new Intent(context,Listenansicht.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
@@ -252,6 +330,7 @@ public class NeuerEintrag extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes); // Used for compression rate of the Image : 100 means no compression
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "xyz", null);
+        //String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/" + "Camera";
         return Uri.parse(path);
     }
 }
