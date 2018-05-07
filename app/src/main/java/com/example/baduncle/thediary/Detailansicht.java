@@ -41,7 +41,6 @@ public class Detailansicht extends AppCompatActivity {
         Bundle extras = uebergabe.getExtras();
         String eintragsid = extras.getString("eintragsid");
         final int index =extras.getInt("index");
-        // Toast.makeText(this,eintragsid,Toast.LENGTH_LONG).show();
         final Datensammler eintrag = Datensammler.parseEntry(eintragsid);
         TextView titel = findViewById(R.id.detailtitel);
         TextView beschreibung = findViewById(R.id.detailbeschreibung);;
@@ -100,7 +99,6 @@ public class Detailansicht extends AppCompatActivity {
         beschreibung.setText(eintrag.getBeschreibung());
         datum.setText(eintrag.getDatum());
         bild.setImageURI(Uri.parse(eintrag.getBilduri()));
-        Toast.makeText(context,eintragsid,Toast.LENGTH_SHORT).show();
         sterne.setText(""+eintrag.getSterne());
         preis.setText(""+eintrag.getPreis());
     }
