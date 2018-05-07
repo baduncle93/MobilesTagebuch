@@ -22,6 +22,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -34,8 +35,10 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class NeuerEintrag extends AppCompatActivity {
 
@@ -55,9 +58,14 @@ public class NeuerEintrag extends AppCompatActivity {
     RatingBar preis;
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
+    List<Datensammler> alledaten;
     Uri bilduri;
     int sternint;
     int preisint;
+    int index;
+    Intent editintent;
+    Bundle editextras;
+    Datensammler editeintrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +79,39 @@ public class NeuerEintrag extends AppCompatActivity {
         preis = (RatingBar) findViewById(R.id.ratingBar_dollar_small);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
+        alledaten = new ArrayList<Datensammler>();
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
         titeltext = (EditText) findViewById(R.id.titel);
         bilduri=Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture");
         sternint=0;
         preisint=0;
+        editintent=getIntent();
+        editextras=editintent.getExtras();
 
+        //Datum auf heutiges Datum setzen
         Calendar kalender = Calendar.getInstance();
         final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
         datum.setText(datumsformat.format(kalender.getTime()));
+
+        //Wenn Eintrag editiert wird, diesen laden
+        if(editextras != null){
+            if(editextras.containsKey("editeintrag")) {
+                editeintrag= Datensammler.parseEntry(editextras.getString("editeintrag"));
+                index=editextras.getInt("index");
+                titeltext.setText(editeintrag.getTitel());
+                beschreibungstext.setText(editeintrag.getBeschreibung());
+                neuesbild.setImageURI(Uri.parse(editeintrag.getBilduri()));
+                bilduri = Uri.parse(editeintrag.getBilduri());
+                datum.setText(editeintrag.getDatum());
+                sterne.setRating(editeintrag.getSterne());
+                sternint = editeintrag.getSterne();
+                preis.setRating(editeintrag.getPreis());
+                preisint = editeintrag.getPreis();
+            }
+        }
+
+
 
         //Eingabefeld für Datum anzeigen
         datum.setOnClickListener(new View.OnClickListener() {
@@ -231,20 +263,41 @@ public class NeuerEintrag extends AppCompatActivity {
             return;
         }
         else{
-            int eintragsid = 1;
-            Datensammler eintrag = new Datensammler(eintragsid,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
-            eintragseditor.putString("stringneu",eintrag.toString());
-            eintragseditor.commit();
+            Datensammler eintrag = new Datensammler(0,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
+            if(editextras != null) {
+                if (editextras.containsKey("editeintrag")) {
+                    eintrag.setId(index);
+                    alledaten.remove(index);
+                    alledaten.add(index,eintrag);
+                    String stringalles="";
+                    for(int j=0;alledaten.size() > j;j++) {
+                        stringalles += alledaten.get(j).toString();
+                    }
+                    eintragseditor.putString("Einträge",stringalles);
+                    eintragseditor.commit();
+                    Log.d("Bishierundnichtweiter",""+stringalles);
+                    Intent intent = new Intent(context,Listenansicht.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                }
+            }
+            else{
+                int eintragsid = 1;
+                eintrag.setId(eintragsid);
+                eintragseditor.putString("stringneu",eintrag.toString());
+                eintragseditor.commit();
 
-            //zurück zum Hauptscreen
-            Intent intent = new Intent(context,Listenansicht.class);
-            intent.putExtra("daten",eintrag);
-            intent.putExtra("eintragsid",eintragsid);
-            intent.putExtra("neuereintrag",true);
-            eintragsid++;
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-            Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
+                //zurück zum Hauptscreen
+                Intent intent = new Intent(context,Listenansicht.class);
+                intent.putExtra("daten",eintrag);
+                intent.putExtra("eintragsid",eintragsid);
+                intent.putExtra("neuereintrag",true);
+                eintragsid++;
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
