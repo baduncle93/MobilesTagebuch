@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,6 +42,12 @@ public class SearchResult extends AppCompatActivity {
         suchListe.setAdapter(adapter);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
+
+        //Shows Logo
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.mipmap.ic_launcher);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
         preis = intent.getIntExtra("preis", 0);

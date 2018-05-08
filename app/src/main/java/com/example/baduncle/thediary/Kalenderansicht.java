@@ -80,6 +80,12 @@ public class Kalenderansicht extends AppCompatActivity {
         cal.setUseThreeLetterAbbreviation(true);
         cal.setLocale(TimeZone.getDefault(),Locale.GERMANY);
 
+        //Shows Logo
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.mipmap.ic_launcher);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         //Events in Kalender eintragen
         for(Datensammler d:alledaten) {
             Date datum = new Date();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +18,6 @@ public class SearchActivity extends AppCompatActivity {
     RatingBar preis;
     int sternint;
     int preisint;
-
-
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -49,6 +48,12 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        //Shows Logo
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.mipmap.ic_launcher);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         sterne =(RatingBar) findViewById(R.id.ratingBar_star);
         preis = (RatingBar) findViewById(R.id.ratingBar_dollar);
