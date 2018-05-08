@@ -101,6 +101,7 @@ public class NeuerEintrag extends AppCompatActivity {
         editintent=getIntent();
         editextras=editintent.getExtras();
 
+
         //Datum auf heutiges Datum setzen
         Calendar kalender = Calendar.getInstance();
         final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");

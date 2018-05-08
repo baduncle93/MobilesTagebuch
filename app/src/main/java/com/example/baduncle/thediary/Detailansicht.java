@@ -41,7 +41,6 @@ public class Detailansicht extends AppCompatActivity {
         Bundle extras = uebergabe.getExtras();
         String eintragsid = extras.getString("eintragsid");
         final int index =extras.getInt("index");
-        // Toast.makeText(this,eintragsid,Toast.LENGTH_LONG).show();
         final Datensammler eintrag = Datensammler.parseEntry(eintragsid);
         TextView titel = findViewById(R.id.detailtitel);
         TextView beschreibung = findViewById(R.id.detailbeschreibung);;
@@ -51,6 +50,10 @@ public class Detailansicht extends AppCompatActivity {
         TextView preis = findViewById(R.id.preistext);
         FloatingActionButton detailbearb=  findViewById(R.id.detailbearb);
         FloatingActionButton detailloesch=  findViewById(R.id.detailloesch);
+        findViewById(R.id.stern).setVisibility(View.VISIBLE);
+        findViewById(R.id.dollar).setVisibility(View.VISIBLE);
+        preis.setVisibility(View.VISIBLE);
+        sterne.setVisibility(View.VISIBLE);
 
         //Eintrag bearbeiten
         detailbearb.setOnClickListener(new View.OnClickListener() {
@@ -95,13 +98,20 @@ public class Detailansicht extends AppCompatActivity {
             }
         }) ;
 
-
         titel.setText(eintrag.getTitel());
         beschreibung.setText(eintrag.getBeschreibung());
         datum.setText(eintrag.getDatum());
         bild.setImageURI(Uri.parse(eintrag.getBilduri()));
-        Toast.makeText(context,eintragsid,Toast.LENGTH_SHORT).show();
         sterne.setText(""+eintrag.getSterne());
         preis.setText(""+eintrag.getPreis());
+        if(Integer.parseInt(sterne.getText().toString())<1) {
+            sterne.setVisibility(View.INVISIBLE);
+            findViewById(R.id.stern).setVisibility(View.INVISIBLE);
+        }
+        if(Integer.parseInt(preis.getText().toString())<1) {
+            preis.setVisibility(View.INVISIBLE);
+            findViewById(R.id.dollar).setVisibility(View.INVISIBLE);
+        }
+
     }
 }
