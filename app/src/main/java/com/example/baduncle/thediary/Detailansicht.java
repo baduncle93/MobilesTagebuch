@@ -15,9 +15,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.baduncle.thediary.Listenansicht;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +23,8 @@ public class Detailansicht extends AppCompatActivity {
     SharedPreferences eintragsspeicher;
     SharedPreferences.Editor eintragseditor;
     List<Datensammler> alledaten;
+
+    Context context = this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,14 +45,14 @@ public class Detailansicht extends AppCompatActivity {
         TextView beschreibung = findViewById(R.id.detailbeschreibung);;
         TextView datum = findViewById(R.id.detaildatum);;
         ImageView bild = findViewById(R.id.detailbild);;
-        TextView sterne = findViewById(R.id.sterntext);
-        TextView preis = findViewById(R.id.preistext);
+
+        RatingBar dollar = findViewById(R.id.ratingBar_dollar_small1);
+        RatingBar stars = findViewById(R.id.ratingBar_star_small1);
         FloatingActionButton detailbearb=  findViewById(R.id.detailbearb);
         FloatingActionButton detailloesch=  findViewById(R.id.detailloesch);
-        findViewById(R.id.stern).setVisibility(View.VISIBLE);
-        findViewById(R.id.dollar).setVisibility(View.VISIBLE);
-        preis.setVisibility(View.VISIBLE);
-        sterne.setVisibility(View.VISIBLE);
+
+
+
 
         //Eintrag bearbeiten
         detailbearb.setOnClickListener(new View.OnClickListener() {
@@ -102,15 +101,18 @@ public class Detailansicht extends AppCompatActivity {
         beschreibung.setText(eintrag.getBeschreibung());
         datum.setText(eintrag.getDatum());
         bild.setImageURI(Uri.parse(eintrag.getBilduri()));
-        sterne.setText(""+eintrag.getSterne());
-        preis.setText(""+eintrag.getPreis());
-        if(Integer.parseInt(sterne.getText().toString())<1) {
-            sterne.setVisibility(View.INVISIBLE);
-            findViewById(R.id.stern).setVisibility(View.INVISIBLE);
+
+        stars.setRating(eintrag.getSterne());
+        dollar.setRating(eintrag.getPreis());
+
+
+        if(stars.getRating()<1) {
+            stars.setVisibility(View.INVISIBLE);
+            findViewById(R.id.ratingBar_star_small1).setVisibility(View.INVISIBLE);
         }
-        if(Integer.parseInt(preis.getText().toString())<1) {
-            preis.setVisibility(View.INVISIBLE);
-            findViewById(R.id.dollar).setVisibility(View.INVISIBLE);
+        if(dollar.getRating()<1) {
+            dollar.setVisibility(View.INVISIBLE);
+            findViewById(R.id.ratingBar_dollar_small1).setVisibility(View.INVISIBLE);
         }
 
     }

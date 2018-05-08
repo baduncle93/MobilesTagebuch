@@ -17,7 +17,7 @@
         android:contentDescription="Kamera"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/neuesbild" />
+        app:srcCompat="@drawable/camera_icon2" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/layout2"
