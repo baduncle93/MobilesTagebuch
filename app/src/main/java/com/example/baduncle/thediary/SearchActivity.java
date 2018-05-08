@@ -8,10 +8,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RatingBar;
 
 public class SearchActivity extends AppCompatActivity {
     final Context context = this;
-    //  private TextView mTextMessage;
+    RatingBar sterne;
+    RatingBar preis;
+    int sternint;
+    int preisint;
+
+
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -43,6 +50,11 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        sterne =(RatingBar) findViewById(R.id.ratingBar_star);
+        preis = (RatingBar) findViewById(R.id.ratingBar_dollar);
+        sternint=0;
+        preisint=0;
+
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -50,6 +62,30 @@ public class SearchActivity extends AppCompatActivity {
         MenuItem menuitem= menu.getItem(2);
         menuitem.setChecked(true);
 
+        sterne.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                sternint = Math.round(v);
+
+            }
+        });
+
+        preis.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                preisint = Math.round(v);
+
+            }
+        });
+
+    }
+
+    public void suchen(View v) {
+        Intent intent4 = new Intent(context,SearchResult.class);
+        intent4.putExtra("sterne", sternint);
+        intent4.putExtra("preis", preisint);
+        startActivity(intent4);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
 }
