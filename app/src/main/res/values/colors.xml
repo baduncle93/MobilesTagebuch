@@ -16,4 +16,5 @@
     <color name="white">#FFFFFF</color>
     <color name="buttonColorStart">#535fff</color>
     <color name="buttonColorEnd">#3bd5ff</color>
+    <color name ="black">#000000</color>
 </resources>
