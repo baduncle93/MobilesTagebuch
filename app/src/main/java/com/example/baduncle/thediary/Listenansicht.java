@@ -1,9 +1,9 @@
 package com.example.baduncle.thediary;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class Listenansicht extends AppCompatActivity {
     final Context context=this;
     private TextView mTextMessage;
@@ -32,6 +34,7 @@ public class Listenansicht extends AppCompatActivity {
     CustomAdapter adapter;
     ListView eintragsliste;
     private List<Datensammler> alledaten;
+    private String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -74,6 +77,9 @@ public class Listenansicht extends AppCompatActivity {
         eintragsliste.setAdapter(adapter);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
+
+        EasyPermissions.requestPermissions(this, "Access for storage",
+                101, galleryPermissions);
 
         //Shows Logo
         ActionBar actionBar = getSupportActionBar();
