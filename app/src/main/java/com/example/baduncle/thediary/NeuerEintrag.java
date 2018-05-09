@@ -33,6 +33,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.master.glideimageview.GlideImageView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.ParseException;
@@ -43,6 +45,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class NeuerEintrag extends AppCompatActivity {
 
     private TextInputLayout titel;
@@ -51,7 +55,7 @@ public class NeuerEintrag extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener ondatesetlistener;
     final Context context=this;
     Bitmap bitmap;
-    ImageView neuesbild;
+    GlideImageView neuesbild;
     FloatingActionButton bildbutton;
     String[] permission = {Manifest.permission.CAMERA};
     private static final int requestcode=123;
@@ -89,13 +93,13 @@ public class NeuerEintrag extends AppCompatActivity {
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.datum);
-        neuesbild = (ImageView) findViewById(R.id.neuesbild);
+        neuesbild = (GlideImageView) findViewById(R.id.neuesbild);
         sterne =(RatingBar) findViewById(R.id.ratingBar_star_small);
         preis = (RatingBar) findViewById(R.id.ratingBar_dollar_small);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
         alledaten = new ArrayList<Datensammler>();
-        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§Beispieluri§01.01.2000§0§0%"));
+        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§android.resource://com.example.baduncle.thediary/drawable/defaultpicture§01.01.2000§0§0%"));
         beschreibungstext = (EditText) findViewById(R.id.beschreibung);
         titeltext = (EditText) findViewById(R.id.titel);
         bilduri=Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture");

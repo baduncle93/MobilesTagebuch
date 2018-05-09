@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorEintragsHintergrund">
 
-    <ImageView
+    <com.master.glideimageview.GlideImageView
         android:id="@+id/neuesbild"
         android:layout_width="180dp"
         android:layout_height="150dp"

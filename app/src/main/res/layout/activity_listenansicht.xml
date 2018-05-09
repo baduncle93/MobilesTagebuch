@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Listenansicht"
-    >
+    android:background="@color/colorEintragsHintergrund">
 
     <TextView
         android:id="@+id/message"

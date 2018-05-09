@@ -1,7 +1,12 @@
 package com.example.baduncle.thediary;
 
 import android.content.Context;
+import android.content.CursorLoader;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.Resource;
+import com.master.glideimageview.GlideImageView;
+
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +30,7 @@ public class CustomAdapter extends ArrayAdapter{
         super(context, resource);
     }
 static class Datahandler {
-        ImageView bild;
+        GlideImageView bild;
         TextView titel;
         TextView beschreibung;
 }
@@ -61,14 +70,43 @@ static class Datahandler {
             handler = (Datahandler) customview.getTag();
         }
 
+
         Datensammler daten ;
         daten=(Datensammler) this.getItem(position);
-        handler.bild.setImageURI(Uri.parse(daten.getBilduri()));
+        BitmapFactory.Options opt= new BitmapFactory.Options();
+        opt.inScaled = true;
+        opt.inSampleSize = 20;
+        opt.inDensity = 3006;
+        opt.inTargetDensity = 130*opt.inSampleSize;
+
+        if(daten.getBilduri().equals("android.resource://com.example.baduncle.thediary/drawable/defaultpicture")){
+            handler.bild.setImageURI(Uri.parse(daten.getBilduri()));
+        }
+        else {
+           // Bitmap bitmap = BitmapFactory.decodeFile(daten.getBilduri(),opt);
+            Bitmap bitmap = BitmapFactory.decodeFile(getPath(Uri.parse(daten.getBilduri())),opt);
+            handler.bild.setImageBitmap(bitmap);
+        }
+        //handler.bild.setImageURI(Uri.parse(daten.getBilduri()));
         handler.titel.setText(daten.getTitel());
         handler.beschreibung.setText(daten.getBeschreibung());
 
 
         return customview;
+    }
+
+    private String getPath(Uri uri) {
+        if(uri.toString().contains("NoteLookPicture")){
+            return uri.toString().substring(6);
+        }
+        else{
+            String[]  data = { MediaStore.Images.Media.DATA };
+            CursorLoader loader = new CursorLoader(getContext(), uri, data, null, null, null);
+            Cursor cursor = loader.loadInBackground();
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
     }
 }
 

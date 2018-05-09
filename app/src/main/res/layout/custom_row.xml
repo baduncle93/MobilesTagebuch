@@ -6,7 +6,7 @@
     android:id="@+id/button">
 
 
-    <ImageView
+    <com.master.glideimageview.GlideImageView
         android:id="@+id/bildid"
         android:layout_width="130dp"
         android:layout_height="130dp"

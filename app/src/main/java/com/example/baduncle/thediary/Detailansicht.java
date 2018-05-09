@@ -16,6 +16,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.master.glideimageview.GlideImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class Detailansicht extends AppCompatActivity {
         TextView titel = findViewById(R.id.detailtitel);
         TextView beschreibung = findViewById(R.id.detailbeschreibung);;
         TextView datum = findViewById(R.id.detaildatum);;
-        ImageView bild = findViewById(R.id.detailbild);;
+        GlideImageView bild = findViewById(R.id.detailbild);;
 
         RatingBar dollar = findViewById(R.id.ratingBar_dollar_small1);
         RatingBar stars = findViewById(R.id.ratingBar_star_small1);

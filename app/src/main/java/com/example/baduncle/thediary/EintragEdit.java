@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.master.glideimageview.GlideImageView;
+
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,7 +46,7 @@ public class EintragEdit extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener ondatesetlistener;
     final Context context=this;
     Bitmap bitmap;
-    ImageView neuesbild;
+    GlideImageView neuesbild;
     FloatingActionButton bildbutton;
     String[] permission = {Manifest.permission.CAMERA};
     private static final int requestcode=123;
@@ -67,7 +69,7 @@ public class EintragEdit extends AppCompatActivity {
         beschreibung = findViewById(R.id.layout1);
         datum = (TextView) findViewById(R.id.editdatum);
         final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
-        neuesbild= (ImageView) findViewById(R.id.editneuesbild);
+        neuesbild= (GlideImageView) findViewById(R.id.editneuesbild);
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
         alledaten = new ArrayList<Datensammler>();

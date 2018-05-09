@@ -58,12 +58,10 @@ public class SearchResult extends AppCompatActivity {
         suchListe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i != 0) {
                     Intent intent = new Intent(context, Detailansicht.class);
                     intent.putExtra("index", i);
                     intent.putExtra("eintragsid", suchListe.getItemAtPosition(i).toString());
                     startActivity(intent);
-                }
             }
         });
 
