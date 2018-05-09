@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,10 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.Resource;
 import com.master.glideimageview.GlideImageView;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,10 +79,23 @@ static class Datahandler {
 
         Datensammler daten ;
         daten=(Datensammler) this.getItem(position);
+        //Bitmap hilf = BitmapFactory.decodeFile(getPath(Uri.parse(daten.getBilduri())));
+        InputStream stream = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        };
+        try {
+            stream =getContext().getContentResolver().openInputStream(Uri.parse(daten.getBilduri()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap hilf = BitmapFactory.decodeStream(stream);
         BitmapFactory.Options opt= new BitmapFactory.Options();
-        Bitmap hilf = BitmapFactory.decodeFile(getPath(Uri.parse(daten.getBilduri())));
         opt.inScaled = true;
-        opt.inSampleSize = 20;
+        opt.inSampleSize = 5;
         opt.inDensity = hilf.getDensity();
         opt.inTargetDensity = 130*opt.inSampleSize;
 
