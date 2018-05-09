@@ -28,7 +28,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,8 +43,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class NeuerEintrag extends AppCompatActivity {
 
@@ -196,6 +193,8 @@ public class NeuerEintrag extends AppCompatActivity {
     public void bildwahl() {
         final CharSequence[] items = {"Kamera","Gallerie","Abbrechen"};
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
+
+
         builder.setTitle("Bild hinzufügen");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
@@ -216,7 +215,6 @@ public class NeuerEintrag extends AppCompatActivity {
                     }
                 }
                 else if (items[i].equals("Gallerie")){
-
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
                     startActivityForResult(intent.createChooser(intent,"Wähle Bild"),2);

@@ -47,7 +47,7 @@ public class Kalenderansicht extends AppCompatActivity {
 
                     Intent intent1 = new Intent(context,Listenansicht.class);
                     startActivity(intent1);
-                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
                 case R.id.navigation_kalender:
 
@@ -57,7 +57,7 @@ public class Kalenderansicht extends AppCompatActivity {
 
                     Intent intent3 = new Intent(context,SearchActivity.class);
                     startActivity(intent3);
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
             }
             return false;

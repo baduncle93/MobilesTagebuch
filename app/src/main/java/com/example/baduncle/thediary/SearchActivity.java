@@ -29,12 +29,12 @@ public class SearchActivity extends AppCompatActivity {
                 case R.id.navigation_liste:
                     Intent intent1 = new Intent(context,Listenansicht.class);
                     startActivity(intent1);
-                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
                 case R.id.navigation_kalender:
                     Intent intent2 = new Intent(context,Kalenderansicht.class);
                     startActivity(intent2);
-                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
 
                 case R.id.navigation_search:

@@ -50,14 +50,14 @@ public class Listenansicht extends AppCompatActivity {
                     mTextMessage.setText("");
                     Intent intent2 = new Intent(context,Kalenderansicht.class);
                     startActivity(intent2);
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
 
                 case R.id.navigation_search:
                     mTextMessage.setText("");
                     Intent intent3 = new Intent(context,SearchActivity.class);
                     startActivity(intent3);
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     return true;
             }
             return false;
@@ -78,8 +78,11 @@ public class Listenansicht extends AppCompatActivity {
         eintragsspeicher = getSharedPreferences("Eintragsspeicher",MODE_PRIVATE);
         eintragseditor = eintragsspeicher.edit();
 
-        EasyPermissions.requestPermissions(this, "Access for storage",
-                101, galleryPermissions);
+
+        if (!EasyPermissions.hasPermissions(context, galleryPermissions)) {
+            EasyPermissions.requestPermissions(this, "Access for storage",
+                    101, galleryPermissions);
+        }
 
         //Shows Logo
         ActionBar actionBar = getSupportActionBar();
