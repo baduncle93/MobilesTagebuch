@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ public class SearchActivity extends AppCompatActivity {
     RatingBar preis;
     int sternint;
     int preisint;
+    TextInputEditText titel;
 
     //Navigation mittels Navigationsleiste unten
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -57,6 +60,7 @@ public class SearchActivity extends AppCompatActivity {
 
         sterne =(RatingBar) findViewById(R.id.ratingBar_star);
         preis = (RatingBar) findViewById(R.id.ratingBar_dollar);
+        titel = (TextInputEditText) findViewById(R.id.suchtitel);
         sternint=0;
         preisint=0;
 
@@ -89,6 +93,7 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent4 = new Intent(context,SearchResult.class);
         intent4.putExtra("sterne", sternint);
         intent4.putExtra("preis", preisint);
+        intent4.putExtra("titel",titel.getText().toString());
         startActivity(intent4);
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
