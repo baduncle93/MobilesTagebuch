@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.TextInputEditText
-        android:id="@+id/beschreibung"
+        android:id="@+id/suchtitel"
         android:layout_width="249dp"
         android:layout_height="41dp"
         android:layout_marginEnd="8dp"
