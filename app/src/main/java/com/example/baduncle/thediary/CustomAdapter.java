@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +75,10 @@ static class Datahandler {
         Datensammler daten ;
         daten=(Datensammler) this.getItem(position);
         BitmapFactory.Options opt= new BitmapFactory.Options();
+        Bitmap hilf = BitmapFactory.decodeFile(getPath(Uri.parse(daten.getBilduri())));
         opt.inScaled = true;
         opt.inSampleSize = 20;
-        opt.inDensity = 3006;
+        opt.inDensity = hilf.getDensity();
         opt.inTargetDensity = 130*opt.inSampleSize;
 
         if(daten.getBilduri().equals("android.resource://com.example.baduncle.thediary/drawable/defaultpicture")){
@@ -98,6 +100,10 @@ static class Datahandler {
     private String getPath(Uri uri) {
         if(uri.toString().contains("NoteLookPicture")){
             return uri.toString().substring(6);
+        }
+        if(uri.toString().contains("drawable")){
+            Log.d("NULLPOINTER","string="+uri.toString());
+            return uri.toString();
         }
         else{
             String[]  data = { MediaStore.Images.Media.DATA };
