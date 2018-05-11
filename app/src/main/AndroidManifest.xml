@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_right"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".Listenansicht"
             android:label="@string/app_name">
@@ -31,9 +32,11 @@
             android:name=".NeuerEintrag"
             android:screenOrientation="portrait" />
         <activity android:name=".Test" />
-        <activity android:name=".Detailansicht" />
+        <activity android:name=".Detailansicht"
+            android:screenOrientation="portrait"/>
         <activity android:name=".EintragEdit" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".SearchActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".SearchResult"></activity>
     </application>
 
