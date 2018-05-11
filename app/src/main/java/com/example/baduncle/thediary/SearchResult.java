@@ -58,7 +58,7 @@ public class SearchResult extends AppCompatActivity {
             sterne = intent.getIntExtra("sterne", 0);
             titel = intent.getStringExtra("titel");
 
-            Toast.makeText(context, "Preis: " + preis + ", Sterne: " + sterne, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Suchkriterien \nSuchbegriff: " + titel+ "\nPreis: " + preis + "\nSterne: " + sterne , Toast.LENGTH_LONG).show();
 
             suchListe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
