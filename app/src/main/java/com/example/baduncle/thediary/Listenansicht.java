@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -129,6 +130,35 @@ public class Listenansicht extends AppCompatActivity {
             }
         }) ;
 
+
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.reset_button,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.reset_button:
+                resetapp();
+                return true;
+
+
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void resetapp() {
+        eintragseditor.remove("Einträge");
+        eintragseditor.commit();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
 }

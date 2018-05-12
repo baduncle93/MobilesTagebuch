@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sartainstudios.contacts.ContactsView">
+
+    <item
+        android:id="@+id/reset_button"
+        android:title="Reset App"
+        app:showAsAction="always"
+        />
+
+</menu>
