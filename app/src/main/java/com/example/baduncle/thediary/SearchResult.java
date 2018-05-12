@@ -1,6 +1,5 @@
 package com.example.baduncle.thediary;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -70,6 +69,7 @@ public class SearchResult extends AppCompatActivity {
                 }
             });
 
+            //zeigt daten nach Suchkriterien
             alledaten = new ArrayList<Datensammler>();
             alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge", "0§Beispieltitel§Beispieltext§" + Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture") + "§01.01.2000§0§0%"));
             for (int i = 0; alledaten.size() > i; i++) {

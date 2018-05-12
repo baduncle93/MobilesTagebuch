@@ -194,7 +194,7 @@ public class NeuerEintrag extends AppCompatActivity {
         final CharSequence[] items = {"Kamera","Gallerie","Abbrechen"};
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
 
-
+        //Foto hinzufuegen
         builder.setTitle("Bild hinzufügen");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override

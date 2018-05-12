@@ -8,10 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +47,12 @@ public class Detailansicht extends AppCompatActivity {
         TextView beschreibung = findViewById(R.id.detailbeschreibung);;
         TextView datum = findViewById(R.id.detaildatum);;
         GlideImageView bild = findViewById(R.id.detailbild);;
+
+        //Shows Logo
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.mipmap.ic_launcher);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         RatingBar dollar = findViewById(R.id.ratingBar_dollar_small1);
         RatingBar stars = findViewById(R.id.ratingBar_star_small1);
@@ -107,7 +113,7 @@ public class Detailansicht extends AppCompatActivity {
         stars.setRating(eintrag.getSterne());
         dollar.setRating(eintrag.getPreis());
 
-
+        //falls keine Bewertung oder kein Preis angegeben ist, dann wird dieser nicht angzeigt
         if(stars.getRating()<1) {
             stars.setVisibility(View.INVISIBLE);
             findViewById(R.id.ratingBar_star_small1).setVisibility(View.INVISIBLE);
