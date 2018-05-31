@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorEintragsHintergrund"
-    >
+    tools:focusableInTouchMode="false">
 
     <com.master.glideimageview.GlideImageView
         android:id="@+id/neuesbild"
@@ -47,9 +46,9 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        app:errorEnabled="true"
         app:counterEnabled="true"
         app:counterMaxLength="700"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,27 +67,27 @@
     </android.support.design.widget.TextInputLayout>
 
 
-        <TextView
-            android:id="@+id/datum"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:hint="Wann war dein Erlebnis?"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
-            android:selectAllOnFocus="false"
-            android:gravity="right"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/datum"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="right"
+        android:hint="Wann war dein Erlebnis?"
+        android:selectAllOnFocus="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/button"
-        android:onClick="eingabeok"
         style="@style/buttonStartStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginEnd="5dp"
+        android:onClick="eingabeok"
         android:text="Speichern"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

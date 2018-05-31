@@ -73,7 +73,7 @@ public class SearchResult extends AppCompatActivity {
             alledaten = new ArrayList<Datensammler>();
             alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge", "0§Beispieltitel§Beispieltext§" + Uri.parse("android.resource://com.example.baduncle.thediary/drawable/defaultpicture") + "§01.01.2000§0§0%"));
             for (int i = 0; alledaten.size() > i; i++) {
-                if (alledaten.get(i).getPreis() >= preis && alledaten.get(i).getSterne() >= sterne && alledaten.get(i).getTitel().contains(titel))
+                if (alledaten.get(i).getPreis() <= preis && alledaten.get(i).getSterne() >= sterne && alledaten.get(i).getTitel().contains(titel))
                     adapter.add(alledaten.get(i));
             }
 
