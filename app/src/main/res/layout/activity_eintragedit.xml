@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:background="@color/colorEintragsHintergrund"
+        android:background="@color/textbackground"
         android:contentDescription="Kamera"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -26,6 +26,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -48,7 +49,7 @@ public class NeuerEintrag extends AppCompatActivity {
 
     private TextInputLayout titel;
     private TextInputLayout beschreibung;
-    private TextView datum;
+    private Button datum;
     private DatePickerDialog.OnDateSetListener ondatesetlistener;
     final Context context=this;
     Bitmap bitmap;
@@ -72,6 +73,8 @@ public class NeuerEintrag extends AppCompatActivity {
     Datensammler editeintrag;
     String stringalles;
     private File foto;
+    Calendar kalender;
+    SimpleDateFormat datumsformat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +92,7 @@ public class NeuerEintrag extends AppCompatActivity {
 
         titel = findViewById(R.id.layout2);
         beschreibung = findViewById(R.id.layout1);
-        datum = (TextView) findViewById(R.id.datum);
+        datum = (Button) findViewById(R.id.datum);
         neuesbild = (GlideImageView) findViewById(R.id.neuesbild);
         sterne =(RatingBar) findViewById(R.id.ratingBar_star_small);
         preis = (RatingBar) findViewById(R.id.ratingBar_dollar_small);
@@ -108,8 +111,8 @@ public class NeuerEintrag extends AppCompatActivity {
 
 
         //Datum auf heutiges Datum setzen
-        Calendar kalender = Calendar.getInstance();
-        final SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
+        kalender = Calendar.getInstance();
+        datumsformat = new SimpleDateFormat("dd.MM.yyyy");
         //datum.setText(datumsformat.format(kalender.getTime()));
 
         //Wenn Eintrag editiert wird, diesen laden
@@ -274,7 +277,7 @@ public class NeuerEintrag extends AppCompatActivity {
         }
         }
 
-    //Überprüfung ob Titelfeld leer ist
+    //Überprüfung ob ungültiges Zeichen im Titelfeld ist
     private boolean falscheszeichen(){
         String titelstring = titel.getEditText().getText().toString().trim();
         String beschrstring = beschreibung.getEditText().getText().toString().trim();
@@ -283,7 +286,6 @@ public class NeuerEintrag extends AppCompatActivity {
             return false;
         }
         else {
-            titel.setError(null);
             return true;
         }
     }
@@ -293,7 +295,11 @@ public class NeuerEintrag extends AppCompatActivity {
         if(!titelnichtleer()|!falscheszeichen()) {
             return;
         }
+
         else{
+              if(datum.getText().toString().equals("")) {
+                datum.setText(datumsformat.format(kalender.getTime()));
+              }
             Datensammler eintrag = new Datensammler(0,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
             if(editextras != null) {
                 if (editextras.containsKey("editeintrag")) {

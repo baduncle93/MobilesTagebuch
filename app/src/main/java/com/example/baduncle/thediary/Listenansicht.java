@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -65,6 +67,17 @@ public class Listenansicht extends AppCompatActivity {
         }
     };
 
+    Handler listhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            alledaten = new ArrayList<Datensammler>();
+            alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§android.resource://com.example.baduncle.thediary/drawable/defaultpicture§01.01.2000§0§0%"));
+            for(int i=alledaten.size()-1;i>=0;i--){
+                adapter.add(alledaten.get(i));
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,23 +108,23 @@ public class Listenansicht extends AppCompatActivity {
         eintragsliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i != 0) {
+             //   if(i != 0) {
                     Intent intent = new Intent(context, Detailansicht.class);
                     intent.putExtra("index", i);
                     intent.putExtra("eintragsid", eintragsliste.getItemAtPosition(i).toString());
                     startActivity(intent);
-                }
+              //  }
             }
         });
         //Zum Löschen aller Elemente auskommentieren
         //eintragseditor.remove("Einträge");
         //eintragseditor.commit();
 
-        alledaten = new ArrayList<Datensammler>();
-        alledaten = Datensammler.parseEntries(eintragsspeicher.getString("Einträge","0§Beispieltitel§Beispieltext§android.resource://com.example.baduncle.thediary/drawable/defaultpicture§01.01.2000§0§0%"));
-        for(int i=0;alledaten.size()>i;i++){
+        listhandler.sendEmptyMessage(0);
+
+       /* for(int i=0;alledaten.size()>i;i++){
             adapter.add(alledaten.get(i));
-        }
+        } */
 
         //Navigationsleiste initialisieren
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);

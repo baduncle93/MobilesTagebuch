@@ -67,8 +67,8 @@ public class Detailansicht extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(context,NeuerEintrag.class);
-                intent.putExtra("editeintrag",alledaten.get(index).toString());
-                intent.putExtra("index",index);
+                intent.putExtra("editeintrag",alledaten.get(alledaten.size()-index-1).toString());
+                intent.putExtra("index",alledaten.size()-index-1);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
@@ -85,7 +85,7 @@ public class Detailansicht extends AppCompatActivity {
                 builder.setPositiveButton("Bestätigen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        alledaten.remove(index);
+                        alledaten.remove(alledaten.size()-index-1);
                         String stringalles="";
 
                         for(int j=0;alledaten.size() > j;j++) {
@@ -96,7 +96,7 @@ public class Detailansicht extends AppCompatActivity {
 
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                        Toast.makeText(context,"Eintrag mit Index "+index+" wurde erfolgreich gelöscht",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"Eintrag mit Index "+(index)+" wurde erfolgreich gelöscht",Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("Abbrechen",null);

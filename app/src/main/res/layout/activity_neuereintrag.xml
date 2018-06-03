@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:background="@color/colorEintragsHintergrund"
+        android:background="@color/textbackground"
         android:contentDescription="Kamera"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -67,15 +67,18 @@
     </android.support.design.widget.TextInputLayout>
 
 
-    <TextView
+    <Button
         android:id="@+id/datum"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/textbackground"
         android:gravity="right"
         android:hint="Wann war dein Erlebnis?"
         android:selectAllOnFocus="false"
+        android:textAlignment="center"
+        android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
