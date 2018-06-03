@@ -108,12 +108,12 @@ public class Listenansicht extends AppCompatActivity {
         eintragsliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-             //   if(i != 0) {
+                if(i != alledaten.size()-1) {
                     Intent intent = new Intent(context, Detailansicht.class);
                     intent.putExtra("index", i);
                     intent.putExtra("eintragsid", eintragsliste.getItemAtPosition(i).toString());
                     startActivity(intent);
-              //  }
+               }
             }
         });
         //Zum Löschen aller Elemente auskommentieren
