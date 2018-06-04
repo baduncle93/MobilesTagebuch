@@ -129,6 +129,7 @@ public class NeuerEintrag extends AppCompatActivity {
                 sternint = editeintrag.getSterne();
                 preis.setRating(editeintrag.getPreis());
                 preisint = editeintrag.getPreis();
+                neuesbild.setBackgroundColor(14740728);
             }
         }
 
@@ -251,14 +252,16 @@ public class NeuerEintrag extends AppCompatActivity {
                   //  bilduri = getImageUri(context,bitmap);
                     bilduri=Uri.fromFile(foto);
                     neuesbild.setImageURI(bilduri);
+                    neuesbild.setBackgroundColor(14740728);
                 }
                 else {
-                    Toast.makeText(context,"Foto machen fehlgeschlagen",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Foto machen fehlgeschlagen, bitte versuche es erneut",Toast.LENGTH_SHORT).show();
                 }
             }
             else if(requestcode==2) {
                 bilduri = data.getData();
                 neuesbild.setImageURI(bilduri);
+                neuesbild.setBackgroundColor(14740728);
             }
 
         }
