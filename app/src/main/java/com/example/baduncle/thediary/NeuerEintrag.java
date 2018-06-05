@@ -15,6 +15,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -292,54 +294,60 @@ public class NeuerEintrag extends AppCompatActivity {
             return true;
         }
     }
+    Handler newhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if(!titelnichtleer()|!falscheszeichen()) {
+                return;
+            }
 
-    //Speichern der Daten, wenn alle Eingaben in Ordnung sind
-    public void eingabeok(View v) {
-        if(!titelnichtleer()|!falscheszeichen()) {
-            return;
-        }
-
-        else{
-              if(datum.getText().toString().equals("")) {
-                datum.setText(datumsformat.format(kalender.getTime()));
-              }
-            Datensammler eintrag = new Datensammler(0,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
-            if(editextras != null) {
-                if (editextras.containsKey("editeintrag")) {
-                    //Eintrag editieren
-                    eintrag.setId(index);
-                    alledaten.remove(index);
-                    alledaten.add(index,eintrag);
+            else{
+                if(datum.getText().toString().equals("")) {
+                    datum.setText(datumsformat.format(kalender.getTime()));
+                }
+                Datensammler eintrag = new Datensammler(0,titel.getEditText().getText().toString(),beschreibung.getEditText().getText().toString(),bilduri.toString(),datum.getText().toString(),sternint,preisint);
+                if(editextras != null) {
+                    if (editextras.containsKey("editeintrag")) {
+                        //Eintrag editieren
+                        eintrag.setId(index);
+                        alledaten.remove(index);
+                        alledaten.add(index,eintrag);
+                        for(int j=0;alledaten.size() > j;j++) {
+                            stringalles += alledaten.get(j).toString();
+                        }
+                        eintragseditor.putString("Einträge",stringalles);
+                        eintragseditor.commit();
+                        //zurück zum Hauptscreen
+                        Intent intent = new Intent(context,Listenansicht.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                        Toast.makeText(context,"Eintrag wurde erfolgreich bearbeitet",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    //neuen Eintrag einfügen
+                    eintrag.setId(alledaten.size());
+                    alledaten.add(eintrag);
                     for(int j=0;alledaten.size() > j;j++) {
                         stringalles += alledaten.get(j).toString();
                     }
+
                     eintragseditor.putString("Einträge",stringalles);
                     eintragseditor.commit();
                     //zurück zum Hauptscreen
                     Intent intent = new Intent(context,Listenansicht.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                    Toast.makeText(context,"Eintrag wurde erfolgreich bearbeitet",Toast.LENGTH_SHORT).show();
-                }
-            }
-            else{
-                //neuen Eintrag einfügen
-                eintrag.setId(alledaten.size());
-                alledaten.add(eintrag);
-                for(int j=0;alledaten.size() > j;j++) {
-                    stringalles += alledaten.get(j).toString();
+                    Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
                 }
 
-                eintragseditor.putString("Einträge",stringalles);
-                eintragseditor.commit();
-                //zurück zum Hauptscreen
-                Intent intent = new Intent(context,Listenansicht.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                Toast.makeText(context,"Ein neuer Eintrag wurde erfolgreich erstellt",Toast.LENGTH_SHORT).show();
             }
-
         }
+    };
+
+    //Speichern der Daten, wenn alle Eingaben in Ordnung sind
+    public void eingabeok(View v) {
+        newhandler.sendEmptyMessage(0);
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
