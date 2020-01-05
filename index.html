@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Model Pre-processing for Twitter</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/mycss.css" />
+
+</head>
+
+<body>
+
+	<div id="btnRow">
+		<!--<input id="twitterLogin" type="image" src="images/sign-in-with-twitter-gray.png" data-toggle="tooltip"
+			data-placement="auto" title="Click to Login"></input>
+		-->
+		<input id='fileid' type='file' accept="image/png, image/jpeg" hidden />
+		<button class="btn btn-info btn-sm" id="uploadBtn" data-toggle="tooltip" data-placement="top"
+			title="Select image to upload to the Server">Upload new Image</button>
+		<button class="btn btn-info btn-sm" id="postImgBtn" data-toggle="tooltip" data-placement="top"
+			title="Get Image from Twitter Post">Get Image from Twitter</button>
+		<ul class="images scrollbar" id="twitterImageList">
+		
+		</ul>
+		<ul class="images scrollbar" id="imageList">
+
+		</ul>
+	</div>
+	<div id="utilRow" style="text-align:center; margin:5px">
+		<input class="input-sm hidden-inputs" type="color" id="drawingColor" value="#000000"></input>
+		<label>
+			<input type="radio" name="meth" value="0">
+			<img class="radioImage" src='images/pencil.png' data-toggle="tooltip" data-placement="auto" title="Draw">
+		</label>
+		<label>
+			<input type="radio" name="meth" value="1">
+			<img class="radioImage" src='images/text.png' data-toggle="tooltip" data-placement="auto" title="Text">
+		</label>
+		<label>
+			<input type="radio" name="meth" value="2">
+			<img class="radioImage" src='images/highlighter.png' data-toggle="tooltip" data-placement="auto"
+				title="Highlight">
+		</label>
+		<label>
+			<input type="radio" name="meth" value="3">
+			<img class="radioImage" src='images/enum.png' data-toggle="tooltip" data-placement="auto" title="Enumerate">
+		</label>
+		<label>
+			<input type="radio" name="meth" value="4">
+			<img class="radioImage" src='images/elevate.png' data-toggle="tooltip" data-placement="auto" title="Focus">
+		</label>
+		<label>
+			<input type="radio" name="meth" value="5">
+			<img class="radioImage" src='images/arrow.png' data-toggle="tooltip" data-placement="auto" title="Arrow">
+		</label>
+		<button class="btn btn-info btn-sm" id="undoBtn" style="margin-left: 5px;" data-toggle="tooltip"
+			data-placement="right" title="Undo last editing action">Undo</button>
+	</div>
+
+	<div style="text-align:center; margin:5px">
+		<input class="input-sm hidden-inputs" type="number" id="textSize" value=18></input>
+		<input class="input-sm hidden-inputs" type="text" id="inputText" placeholder="Image Text"></input>
+	</div>
+	<div style="text-align:center">
+		<canvas class="container-canvas" id="myCanvas" width="1000" height="692"></canvas>
+	</div>
+
+	<div id="submitRow">
+		<!-- <textarea style="width:50vw;height:60px" type="text" id="descriptionText" placeholder="Write some descriptive text here..."></textarea> -->
+		<textarea class="input-lg" type="text" id="descriptionText"
+			placeholder="Write some descriptive text here..."></textarea>
+		<button class="btn btn-info btn-sm" id="saveBtn" data-toggle="tooltip" data-placement="auto"
+			title="Save image to your local drive">Save image locally</button>
+		<button class="btn btn-info btn-sm" id="postBtn" data-toggle="tooltip" data-placement="auto"
+			title="Create a Twitter post out of your edited data">Post to Twitter</button>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+	<script type="text/javascript" src="js/webservice.js"></script>
+	<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+
+</body>
+<footer>
+	<small>&copy; Copyright 2019, Michael Hellstern</small>
+</footer>
+
+</html>
